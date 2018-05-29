@@ -27,8 +27,13 @@ public class User extends HttpServlet {
                     String username = request.getParameter("Username");
                     String password = request.getParameter("Password");
                     System.out.println(username+" - "+password+" @ "+request.getSession().getId());
-                    int uid=DubboHandler.INSTANCE.accountService.userLogin(username,Encrypt.SHA256(password));
-                    if (uid!=-1) {      //Todo 校验密码是否正确并获取UID
+                    int uid=-1;
+                    try {
+                        uid = DubboHandler.INSTANCE.accountService.userLogin(username, Encrypt.SHA256(password));
+                    }catch (Exception e){
+
+                    }
+                    if (uid!=-1) {
                         LoginHandler.login(request.getSession().getId(), uid);
                     }
                     break;

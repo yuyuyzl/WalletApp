@@ -81,11 +81,14 @@ $$('#my-login-screen .login-button').on('click', function () {
             Password:password
         },
         success: function (data, textStatus, jqXHR) {
-            console.log(data.responseText);
-            if(data.responseText!="-1") {
+            console.log(data);
+            if(parseInt(data)!=-1) {
                 // Close login screen
                 app.loginScreen.close('#my-login-screen');
-
+                location.reload();
+            }else {
+                $$('#my-login-screen [name="password"]').val('');
+                app.dialog.alert('登录失败，请检查您的凭据');
             }
         }
     });
