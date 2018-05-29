@@ -16,8 +16,8 @@ routes = [
     componentUrl: './pages/product.html',
   },
   {
-    path: '/settings/',
-    url: './pages/settings.html',
+    path: '/account/',
+    url: './pages/account.html',
   },
   // Page Loaders & Router
   {

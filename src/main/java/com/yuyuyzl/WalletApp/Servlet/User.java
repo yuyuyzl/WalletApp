@@ -1,6 +1,9 @@
 package com.yuyuyzl.WalletApp.Servlet;
 
 import buaa.jj.accountservice.Encrypt;
+import buaa.jj.accountservice.exceptions.AgencyNotExistException;
+import buaa.jj.accountservice.exceptions.NameDuplicateException;
+import buaa.jj.accountservice.exceptions.UserAgencyDuplicateException;
 import com.yuyuyzl.WalletApp.Dubbo.DubboHandler;
 import com.yuyuyzl.WalletApp.Login.LoginHandler;
 
@@ -31,23 +34,63 @@ public class User extends HttpServlet {
             int action = Integer.valueOf(request.getParameter("Action"));
             switch (action) {
                 case 1: //Login
+                {
                     String username = request.getParameter("Username");
                     String password = request.getParameter("Password");
-                    System.out.println(username+" - "+password+" @ "+request.getSession().getId());
-                    int uid=-1;
+                    System.out.println(username + " - " + password + " @ " + request.getSession().getId());
+                    int uid = -1;
                     try {
                         uid = DubboHandler.INSTANCE.accountService.userLogin(username, Encrypt.SHA256(password));
-                    }catch (Exception e){
-
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                    if (uid!=-1) {
+                    if (uid != -1) {
                         LoginHandler.login(request.getSession().getId(), uid);
                     }
+                }
                     break;
 
                 case 2: //logout
                     LoginHandler.logout(request.getSession().getId());
                     break;
+
+                case 3: //register
+                {
+                    String username = request.getParameter("Username");
+                    String password = request.getParameter("Password");
+                    int agencyID = Integer.valueOf(request.getParameter("agencyID"));
+                    String mobile = request.getParameter("mobile");
+                    String ID = request.getParameter("ID");
+                    String email=request.getParameter("email");
+                    String realname = request.getParameter("realname");
+                    System.out.println(username + " - " + password + " @ " + request.getSession().getId());
+                    int uid=-1;
+                    try{
+                        uid=DubboHandler.INSTANCE.accountService.userRegister(
+                                username,
+                                Encrypt.SHA256(password),
+                                realname,
+                                mobile,
+                                email,
+                                ID,
+                                agencyID
+                        );
+                    }
+                    catch (NameDuplicateException e){
+                        out.println(-2);
+                        return;
+                    }
+                    catch(UserAgencyDuplicateException e){
+                        out.println(-3);
+                        return;
+                    }
+                    catch (AgencyNotExistException e){
+                        out.println(-4);
+                        return;
+                    }
+                    out.println(uid);
+                    return;
+                }
             }
         }
         out.println(LoginHandler.getUID(request.getSession().getId()));

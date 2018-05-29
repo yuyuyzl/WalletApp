@@ -11,7 +11,7 @@ public class DubboHandler {
     public AccountService accountService;
     private DubboHandler(){
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring.xml");
-        context.start();
+        //context.start();
         accountService = (AccountService) context.getBean(AccountService.class);
     }
 }

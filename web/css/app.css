@@ -5,3 +5,11 @@
 .ios .tabbar-labels .tab-link.tab-link-active .icon:not(.icon-ios-fill) {
   display: none;
 }
+
+.input-login{
+  padding-left: 30px!important;
+  padding-right: 30px!important;
+}
+.login-button{
+  margin: 0 30px;
+}

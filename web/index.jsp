@@ -121,23 +121,28 @@
       <div class="view">
         <div class="page">
           <div class="page-content login-screen-content">
-            <div class="login-screen-title">Login</div>
+            <div class="login-screen-title">WalletApp</div>
             <div class="list">
               <ul>
-                <li class="item-content item-input">
+                <li class="item-content item-input input-login">
                   <div class="item-inner">
-                    <div class="item-title item-label">Username</div>
+                    <div class="item-title item-label">&nbsp;</div>
                     <div class="item-input-wrap">
-                      <input type="text" name="username" placeholder="Your username">
+                      <input type="text" name="username" placeholder="用户名">
+                    </div>
+                  </div>
+                </li>
+                <li class="item-content item-input input-login">
+                  <div class="item-inner">
+                    <div class="item-title item-label">&nbsp;</div>
+                    <div class="item-input-wrap">
+                      <input type="password" name="password" placeholder="密码">
                     </div>
                   </div>
                 </li>
                 <li class="item-content item-input">
                   <div class="item-inner">
-                    <div class="item-title item-label">Password</div>
-                    <div class="item-input-wrap">
-                      <input type="password" name="password" placeholder="Your password">
-                    </div>
+                    <div class="item-title item-label">&nbsp;</div>
                   </div>
                 </li>
               </ul>
@@ -145,15 +150,121 @@
             <div class="list">
               <ul>
                 <li>
-                  <a href="#" class="item-link list-button login-button">Sign In</a>
+                  <a href="#" class="item-link button button-big button-fill login-button">登录</a>
                 </li>
               </ul>
-              <div class="block-footer">Some text about login information.<br>Click "Sign In" to close Login Screen</div>
+              <div class="block-footer">没有账户？ <a href="#" class="link register-button">现在注册</a></div>
             </div>
           </div>
         </div>
       </div>
     </div>
+
+    <div class="login-screen" id="register-screen">
+      <div class="view">
+        <div class="page">
+          <div class="page-content login-screen-content">
+            <div class="navbar">
+              <div class="navbar-inner sliding">
+                <div class="left">
+                  <a href="#" class="link back">
+                    <i class="icon icon-back"></i>
+                    <span class="ios-only">Back</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div class="login-screen-title">用户注册</div>
+            <div class="list">
+              <ul>
+                <li class="item-content item-input input-login">
+                  <div class="item-inner">
+                    <div class="item-title item-label">机构编号</div>
+                    <div class="item-input-wrap">
+                      <input type="text" name="agencyID" placeholder="">
+                    </div>
+                  </div>
+                </li>
+                <li class="item-content item-input input-login">
+                  <div class="item-inner">
+                    <div class="item-title item-label">用户名</div>
+                    <div class="item-input-wrap">
+                      <input type="text" name="username" placeholder="">
+                    </div>
+                  </div>
+                </li>
+                <li class="item-content item-input input-login">
+                  <div class="item-inner">
+                    <div class="item-title item-label">密码</div>
+                    <div class="item-input-wrap">
+                      <input type="password" name="password" placeholder="">
+                    </div>
+                  </div>
+                </li>
+                <li class="item-content item-input input-login">
+                  <div class="item-inner">
+                    <div class="item-title item-label">重复密码</div>
+                    <div class="item-input-wrap">
+                      <input type="password" name="repeatPassword" placeholder="">
+                    </div>
+                  </div>
+                </li>
+                <li class="item-content item-input input-login">
+                  <div class="item-inner">
+                    <div class="item-title item-label">手机号码</div>
+                    <div class="item-input-wrap">
+                      <input type="text" name="mobile" placeholder="">
+                    </div>
+                  </div>
+                </li>
+
+                <li class="item-content item-input input-login">
+                <div class="item-inner">
+                  <div class="item-title item-label">电子邮件</div>
+                  <div class="item-input-wrap">
+                    <input type="text" name="email" placeholder="">
+                  </div>
+                </div>
+              </li>
+                <li class="item-content item-input input-login">
+                  <div class="item-inner">
+                    <div class="item-title item-label">真实姓名</div>
+                    <div class="item-input-wrap">
+                      <input type="text" name="realname" placeholder="">
+                    </div>
+                  </div>
+                </li>
+                <li class="item-content item-input input-login">
+                  <div class="item-inner">
+                    <div class="item-title item-label">证件号码</div>
+                    <div class="item-input-wrap">
+                      <input type="text" name="ID" placeholder="">
+                    </div>
+                  </div>
+                </li>
+                <li class="item-content item-input">
+                  <div class="item-inner">
+                    <div class="item-title item-label">&nbsp;</div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="list">
+              <ul>
+                <li>
+                  <a href="#" class="item-link button button-big button-fill login-button">注册</a>
+                </li>
+              </ul>
+              <div class="block-footer">单击注册按钮表明您同意我们并不存在的<br>最终用户许可协议。</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
   </div>
   <!-- Cordova -->
   <!--

@@ -6,7 +6,7 @@ var app  = new Framework7({
   root: '#app', // App root element
   id: 'io.framework7.testapp', // App bundle ID
   name: 'Framework7', // App name
-  theme: 'ios', // Automatic theme detection
+  theme: 'md', // Automatic theme detection
   // App root data
   data: function () {
     return {
@@ -54,7 +54,7 @@ var homeView = app.views.create('#view-home', {
           var uid = parseInt($.ajax({url: "/User", async: false}).responseText);
           console.log(uid);
 
-          if (uid == -1) {
+          if (uid <=0) {
               app.loginScreen.open('#my-login-screen', true);
           }
       }
@@ -64,7 +64,16 @@ var catalogView = app.views.create('#view-catalog', {
   url: '/catalog/'
 });
 var settingsView = app.views.create('#view-settings', {
-  url: '/settings/'
+  url: '/account/',
+    on:{
+      pageInit:function () {
+          $$('.logout-button').on('click', function () {
+              $.ajax({url:"/User?Action=2",async:false});
+              location.reload();
+          });
+
+      }
+    }
 });
 
 
@@ -97,6 +106,118 @@ $$('#my-login-screen .login-button').on('click', function () {
                         }]
                 }).open();
             }
+        }
+    });
+
+});
+
+$$('#my-login-screen .register-button').on('click', function () {
+    app.loginScreen.open('#register-screen', true);
+});
+
+$$("#register-screen .back").on('click',function () {
+    app.loginScreen.close('#register-screen');
+});
+
+$$("#register-screen .login-button").on('click',function () {
+    var username = $$('#register-screen [name="username"]').val();
+    var password = $$('#register-screen [name="password"]').val();
+    var agencyID = $$('#register-screen [name="agencyID"]').val();
+    var mobile = $$('#register-screen [name="mobile"]').val();
+    var email = $$('#register-screen [name="email"]').val();
+    var realname = $$('#register-screen [name="realname"]').val();
+    var repeatPassword = $$('#register-screen [name="repeatPassword"]').val();
+    var ID = $$('#register-screen [name="ID"]').val();
+    if(password!=repeatPassword) {
+        app.dialog.create({
+            title: '注册失败',
+            text: '确认密码不匹配',
+            buttons: [
+                {
+                    text: 'OK',
+                }]
+        }).open();
+        return;
+    }
+    $.ajax({
+        type: 'POST',
+        url: '/User',
+        data: {
+            Action:"3",
+            Username:username,
+            Password:password,
+            agencyID:parseInt(agencyID),
+            mobile:mobile,
+            email:email,
+            realname:realname,
+            ID:ID
+        },
+        success: function (data, textStatus, jqXHR) {
+            console.log(parseInt(data));
+            switch (parseInt(data)) {
+                case 0:
+                case -1:
+                    app.dialog.create({
+                        title: '注册失败',
+                        text: '不知道发生了什么',
+                        buttons: [
+                            {
+                                text: 'OK',
+                            }]
+                    }).open();
+                    break;
+                case -2:
+                    app.dialog.create({
+                        title: '注册失败',
+                        text: '重复的用户名',
+                        buttons: [
+                            {
+                                text: 'OK',
+                            }]
+                    }).open();
+                    break;
+                case -3:
+                    app.dialog.create({
+                        title: '注册失败',
+                        text: 'UserAgencyDuplicateException',
+                        buttons: [
+                            {
+                                text: 'OK',
+                            }]
+                    }).open();
+                    break;
+
+                case -4:
+                    app.dialog.create({
+                        title: '注册失败',
+                        text: '该机构不存在',
+                        buttons: [
+                            {
+                                text: 'OK',
+                            }]
+                    }).open();
+                    break;
+                default:
+                    app.loginScreen.close('#register-screen');
+                    app.dialog.create({
+                        title: '注册成功',
+                        text: '现在登录吧',
+                        buttons: [
+                            {
+                                text: 'OK',
+                            }]
+                    }).open();
+                    var username = $$('#register-screen [name="username"]').val("");
+                    var password = $$('#register-screen [name="password"]').val("");
+                    var agencyID = $$('#register-screen [name="agencyID"]').val("");
+                    var mobile = $$('#register-screen [name="mobile"]').val("");
+                    var email = $$('#register-screen [name="email"]').val("");
+                    var realname = $$('#register-screen [name="realname"]').val("");
+                    var repeatPassword = $$('#register-screen [name="repeatPassword"]').val("");
+                    var ID = $$('#register-screen [name="ID"]').val("");
+                    break;
+            }
+
         }
     });
 
