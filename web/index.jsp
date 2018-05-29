@@ -1,3 +1,5 @@
+<%@ page import="com.yuyuyzl.WalletApp.Login.LoginHandler" %>
+<%@ page import="com.yuyuyzl.WalletApp.Dubbo.DubboHandler" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <!DOCTYPE html>
@@ -74,8 +76,7 @@
           <div class="page-content">
 
             <div class="block block-strong">
-              <p>This is an example of tabs-layout application. The main point of such tabbed layout is that each tab contains independent view with its own routing and navigation.</p>
-              <p>Each tab/view may have different layout, different navbar type (dynamic, fixed or static) or without navbar like this tab.</p>
+              <p>Hello, <% out.print(LoginHandler.getUID(request.getSession().getId()));%></p>
             </div>
 
 
