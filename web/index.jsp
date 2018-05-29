@@ -252,7 +252,7 @@
 
   <!-- Framework7 library -->
   <script src="javascript/framework7.min.js"></script>
-
+  <script src="javascript/jquery.min.js"></script>
   <!-- App routes -->
   <script src="js/routes.js"></script>
 

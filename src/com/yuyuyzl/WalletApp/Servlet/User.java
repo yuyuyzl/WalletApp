@@ -24,6 +24,7 @@ public class User extends HttpServlet {
                 case 1: //Login
                     String username = request.getParameter("Username");
                     String password = request.getParameter("Password");
+                    System.out.println(username+" - "+password+" @ "+request.getSession().getId());
                     if (true) {      //Todo 校验密码是否正确并获取UID
                         LoginHandler.login(request.getSession().getId(), 0);
                     }

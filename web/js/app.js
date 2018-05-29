@@ -42,11 +42,23 @@ var app  = new Framework7({
   },
   // App routes
   routes: routes,
+
 });
 
 // Init/Create views
 var homeView = app.views.create('#view-home', {
-  url: '/'
+  url: '/',
+    on:{
+      pageInit:function () {
+          console.log("homeview init")
+          var uid = parseInt($.ajax({url: "/User", async: false}).responseText);
+          console.log(uid);
+
+          if (uid == -1) {
+              app.loginScreen.open('#my-login-screen', true);
+          }
+      }
+    }
 });
 var catalogView = app.views.create('#view-catalog', {
   url: '/catalog/'
@@ -60,10 +72,24 @@ var settingsView = app.views.create('#view-settings', {
 $$('#my-login-screen .login-button').on('click', function () {
   var username = $$('#my-login-screen [name="username"]').val();
   var password = $$('#my-login-screen [name="password"]').val();
+    $.ajax({
+        type: 'POST',
+        url: '/User',
+        data: {
+            Action:"1",
+            Username:username,
+            Password:password
+        },
+        success: function (data, textStatus, jqXHR) {
+            console.log(data.responseText);
+            if(data.responseText!="-1") {
+                // Close login screen
+                app.loginScreen.close('#my-login-screen');
 
-  // Close login screen
-  app.loginScreen.close('#my-login-screen');
+                // Alert username and password
+                app.dialog.alert('Username: ' + username + '<br>Password: ' + password);
+            }
+        }
+    });
 
-  // Alert username and password
-  app.dialog.alert('Username: ' + username + '<br>Password: ' + password);
 });
