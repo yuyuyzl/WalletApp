@@ -6,7 +6,15 @@
 
 
 
-
+    <servlet>
+        <servlet-name>User</servlet-name>
+        <servlet-class>com.yuyuyzl.WalletApp.Servlet.User</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>User</servlet-name>
+        <url-pattern>/User</url-pattern>
+    </servlet-mapping>
 
 
 </web-app>
