@@ -88,7 +88,14 @@ $$('#my-login-screen .login-button').on('click', function () {
                 location.reload();
             }else {
                 $$('#my-login-screen [name="password"]').val('');
-                app.dialog.alert('登录失败，请检查您的凭据');
+                app.dialog.create({
+                    title: '登录失败',
+                    text: '请检查您的凭据',
+                    buttons: [
+                        {
+                            text: 'OK',
+                        }]
+                }).open();
             }
         }
     });
