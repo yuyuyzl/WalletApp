@@ -44,3 +44,7 @@
 .home-button i{
     font-size: 36px;
 }
+
+.md .links-list a:after{
+    margin-left: -16px;
+}

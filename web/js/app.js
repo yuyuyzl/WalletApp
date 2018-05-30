@@ -60,9 +60,6 @@ var homeView = app.views.create('#view-home', {
       }
     }
 });
-var catalogView = app.views.create('#view-catalog', {
-  url: '/catalog/'
-});
 var settingsView = app.views.create('#view-settings', {
   url: '/account/',
     on:{
