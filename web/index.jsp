@@ -76,7 +76,40 @@
           <div class="page-content">
 
             <div class="block block-strong">
-              <p>Hello, <% out.print(LoginHandler.getUID(request.getSession().getId()));%></p>
+              <p>您好,
+                <%
+                if(LoginHandler.getUID(request.getSession().getId())>0)
+                    out.print(DubboHandler.INSTANCE.accountService.userInformation(LoginHandler.getUID(request.getSession().getId())).get("userRealName"));
+              %>
+              </p>
+              <p>没有新的通知。</p>
+            </div>
+            <div>
+              <div class="row no-gap">
+                <!-- Each "cell" has col-[widht in percents] class -->
+                <div class="col home-fw">
+                <div class="home-braket"></div>
+                <div class="home-button">
+                  <i class="f7-icons size-50">forward_fill</i>
+                  <p>转账</p>
+                </div>
+                </div>
+                <div class="col home-fw">
+                  <div class="home-braket"></div>
+                  <div class="home-button">
+                    <i class="f7-icons size-50">money_yen</i>
+                    <p>提现</p>
+                  </div>
+                </div>
+                <div class="col home-fw">
+                  <div class="home-braket"></div>
+                  <div class="home-button">
+                    <i class="f7-icons size-50">login_fill</i>
+                    <p>充值</p>
+                  </div>
+                </div>
+              </div>
+
             </div>
 
 
@@ -95,26 +128,7 @@
       </div>
     </div>
 
-    <!-- Popup -->
-    <div class="popup" id="my-popup">
-      <div class="view">
-        <div class="page">
-          <div class="navbar">
-            <div class="navbar-inner">
-              <div class="title">Popup</div>
-              <div class="right">
-                <a href="#" class="link popup-close">Close</a>
-              </div>
-            </div>
-          </div>
-          <div class="page-content">
-            <div class="block">
-              <p>Popup content goes here.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+
 
     <!-- Login Screen -->
     <div class="login-screen" id="my-login-screen">
