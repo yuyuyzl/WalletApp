@@ -1,7 +1,7 @@
+
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="com.yuyuyzl.WalletApp.Login.LoginHandler" %>
 <%@ page import="com.yuyuyzl.WalletApp.Dubbo.DubboHandler" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -165,17 +165,18 @@
     <div class="login-screen" id="register-screen">
       <div class="view">
         <div class="page">
-          <div class="page-content login-screen-content">
-            <div class="navbar">
-              <div class="navbar-inner sliding">
-                <div class="left">
-                  <a href="#" class="link back">
-                    <i class="icon icon-back"></i>
-                    <span class="ios-only">Back</span>
-                  </a>
-                </div>
+          <div class="navbar ">
+            <div class="navbar-inner sliding">
+              <div class="left">
+                <a href="#" class="link back">
+                  <i class="icon icon-back"></i>
+                  <span class="ios-only">Back</span>
+                </a>
               </div>
             </div>
+          </div>
+          <div class="page-content login-screen-content">
+
             <div class="login-screen-title">用户注册</div>
             <div class="list">
               <ul>

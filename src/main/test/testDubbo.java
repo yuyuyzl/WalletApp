@@ -26,7 +26,7 @@ public class testDubbo {
             e.printStackTrace();
         }
 
-        //DubboHandler.INSTANCE.accountService.userLogin("yuyuyzl",Encrypt.SHA256("123456"));
+        DubboHandler.INSTANCE.accountService.userLogin("yuyuyzl",Encrypt.SHA256("123456"));
 
     }
 
