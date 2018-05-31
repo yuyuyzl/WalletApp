@@ -1,6 +1,8 @@
 // Dom7
 var $$ = Dom7;
-
+var currentUser={
+    id:-1,
+};
 // Framework7 App main instance
 var app  = new Framework7({
   root: '#app', // App root element
@@ -52,20 +54,61 @@ var homeView = app.views.create('#view-home', {
       pageInit:function (page) {
           console.log("pageInit "+page.name);
           console.log(page);
-          var uid = parseInt($.ajax({url: "/User", async: false}).responseText);
-          console.log(uid);
+          currentUser.id = parseInt($.ajax({url: "/User", async: false}).responseText);
+          console.log(currentUser.id);
 
-          if (uid <=0) {
+          if (currentUser.id <=0) {
               app.loginScreen.open('#my-login-screen', true);
           }
 
-          //TODO 迷之特性研究
-          $$("#transfer-next-button").on("click",function () {
-              var username = $$('#targetUsername').val();
-              console.log(username);
 
-          });
+            if(page.name=="transfertoaccount") {
+                //TODO 迷之特性研究
+                $$("#transfer-next-button").off("click");
+                $$("#transfer-next-button").on("click", function () {
+                    var username = $$('#targetUsername').val();
+                    console.log(username);
+                    var id = $.ajax({
+                        type: 'POST',
+                        url: '/Account',
+                        data: {
+                            Action: "1",
+                            Username: username,
+                        },
+                        async: false
+                    }).responseText;
+                    if (parseInt(id) == currentUser.id) {
+                        app.dialog.create({
+                            title: '错误',
+                            text: '不能给自己转账',
+                            buttons: [
+                                {
+                                    text: 'OK',
+                                }]
+                        }).open();
+                        return;
+                    }
+                    if (parseInt(id) == -1) {
+                        app.dialog.create({
+                            title: '错误',
+                            text: '找不到这个用户，请检查输入',
+                            buttons: [
+                                {
+                                    text: 'OK',
+                                }]
+                        }).open();
+                        return;
+                    }
+                    page.router.navigate({url: "/transfertoaccount2/?" + id});
+                });
+            }
+          if(page.name=="transfertoaccount2") {
+              console.log(page.route.url.split('?')[1]);
+              $$("#transfer-2-confirm").off("click");
+              $$("#transfer-2-confirm").on("click", function () {
 
+              });
+          }
       }
     }
 });
@@ -87,7 +130,10 @@ var transferView = app.views.create('#view-transfer', {
 });
 var transfertoaccountView = app.views.create('#view-transfertoaccount', {
     url: '/transfertoaccount/',
-    
+
+});
+var transfertoaccount2View = app.views.create('#view-transfertoaccount2', {
+    url: '/transfertoaccount2/',
 });
 
 
@@ -95,6 +141,7 @@ var transfertoaccountView = app.views.create('#view-transfertoaccount', {
 $$('#my-login-screen .login-button').on('click', function () {
   var username = $$('#my-login-screen [name="username"]').val();
   var password = $$('#my-login-screen [name="password"]').val();
+
     $.ajax({
         type: 'POST',
         url: '/User',

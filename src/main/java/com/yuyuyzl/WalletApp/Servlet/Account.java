@@ -36,13 +36,13 @@ public class Account extends HttpServlet {
                 case 1://findUser
                     String username = request.getParameter("Username");
 
-                    out.println(DubboHandler.INSTANCE.accountService.getID(username,true));
+                    out.print(DubboHandler.INSTANCE.accountService.getID(username,true));
 
                     break;
 
             }
         }
-        //out.println(-1);
+        //out.print(-1);
     }
     public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

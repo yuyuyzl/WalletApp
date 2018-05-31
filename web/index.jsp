@@ -120,6 +120,8 @@
         </div>
         <div id="view-transfertoaccount" class="view tab">
         </div>
+        <div id="view-transfertoaccount2" class="view tab">
+        </div>
     </div>
 
 
@@ -285,7 +287,7 @@
   <script src="javascript/jquery.min.js"></script>
   <!-- App routes -->
   <script src="js/routes.js"></script>
-
+  <script src="js/util.js"></script>
   <!-- Your custom app scripts -->
   <script src="js/app.js"></script>
 

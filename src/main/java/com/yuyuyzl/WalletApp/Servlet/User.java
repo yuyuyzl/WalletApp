@@ -37,7 +37,7 @@ public class User extends HttpServlet {
                 {
                     String username = request.getParameter("Username");
                     String password = request.getParameter("Password");
-                    System.out.println(username + " - " + password + " @ " + request.getSession().getId());
+                    System.out.print(username + " - " + password + " @ " + request.getSession().getId());
                     int uid = -1;
                     try {
                         uid = DubboHandler.INSTANCE.accountService.userLogin(username, Encrypt.SHA256(password));
@@ -63,7 +63,7 @@ public class User extends HttpServlet {
                     String ID = request.getParameter("ID");
                     String email=request.getParameter("email");
                     String realname = request.getParameter("realname");
-                    System.out.println(username + " - " + password + " @ " + request.getSession().getId());
+                    System.out.print(username + " - " + password + " @ " + request.getSession().getId());
                     int uid=-1;
                     try{
                         uid=DubboHandler.INSTANCE.accountService.userRegister(
@@ -77,23 +77,23 @@ public class User extends HttpServlet {
                         );
                     }
                     catch (NameDuplicateException e){
-                        out.println(-2);
+                        out.print(-2);
                         return;
                     }
                     catch(UserAgencyDuplicateException e){
-                        out.println(-3);
+                        out.print(-3);
                         return;
                     }
                     catch (AgencyNotExistException e){
-                        out.println(-4);
+                        out.print(-4);
                         return;
                     }
-                    out.println(uid);
+                    out.print(uid);
                     return;
                 }
             }
         }
-        out.println(LoginHandler.getUID(request.getSession().getId()));
+        out.print(LoginHandler.getUID(request.getSession().getId()));
     }
     public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
