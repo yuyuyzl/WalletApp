@@ -82,7 +82,7 @@
               <div class="row no-gap">
                 <!-- Each "cell" has col-[widht in percents] class -->
 
-                <a class="col button home-fw transfer-button no-right-border" style="border-left-style: none!important;" href="/transfer/">
+                <a class="col button home-fw transfer-button"  href="/transfer/">
                 <div class="home-braket"></div>
                 <div class="home-button">
                   <i class="f7-icons size-50">forward_fill</i>
@@ -90,15 +90,15 @@
                 </div>
                 </a>
 
-                <a class="col button home-fw draw-money-button no-left-border no-right-border">
+                <a class="col button home-fw draw-money-button">
                   <div class="home-braket"></div>
                   <div class="home-button">
                     <i class="f7-icons size-50">money_yen</i>
                     <p>提现</p>
                   </div>
                 </a>
-                <a class="col button home-fw recharge-button no-left-border"style="border-right-style: none!important;">
-                  <div class="home-braket"></div>
+                <a class="col button home-fw recharge-button" style="border-right-style: none!important;">
+                  <div class="home-braket" style="margin-top: calc(100% - 1px)!important;"></div>
                   <div class="home-button">
                     <i class="f7-icons size-50">login_fill</i>
                     <p>充值</p>

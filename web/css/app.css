@@ -15,12 +15,13 @@
 }
 
 .home-fw {
-  width: calc(33.333333333333333333333333333333333333% + 1px)!important;
+  width: calc(33.333333333333333333333333333333333333%)!important;
   border-radius: 0!important;
   background: #fff;
   text-align: center;
   color: #000!important;
   border: 1px solid rgba(0,0,0,.06)!important;
+  border-left-style: none!important;
   padding: 5px!important;
   height: auto!important;
   font-size: 16px;
