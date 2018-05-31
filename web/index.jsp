@@ -81,27 +81,29 @@
             <div>
               <div class="row no-gap">
                 <!-- Each "cell" has col-[widht in percents] class -->
-                <div class="col home-fw">
+
+                <a class="col button home-fw transfer-button no-right-border" style="border-left-style: none!important;" href="/transfer/">
                 <div class="home-braket"></div>
                 <div class="home-button">
                   <i class="f7-icons size-50">forward_fill</i>
                   <p>转账</p>
                 </div>
-                </div>
-                <div class="col home-fw">
+                </a>
+
+                <a class="col button home-fw draw-money-button no-left-border no-right-border">
                   <div class="home-braket"></div>
                   <div class="home-button">
                     <i class="f7-icons size-50">money_yen</i>
                     <p>提现</p>
                   </div>
-                </div>
-                <div class="col home-fw">
+                </a>
+                <a class="col button home-fw recharge-button no-left-border"style="border-right-style: none!important;">
                   <div class="home-braket"></div>
                   <div class="home-button">
                     <i class="f7-icons size-50">login_fill</i>
                     <p>充值</p>
                   </div>
-                </div>
+                </a>
               </div>
 
             </div>
@@ -114,6 +116,10 @@
 
       <div id="view-settings" class="view tab">
       </div>
+        <div id="view-transfer" class="view tab">
+        </div>
+        <div id="view-transfertoaccount" class="view tab">
+        </div>
     </div>
 
 

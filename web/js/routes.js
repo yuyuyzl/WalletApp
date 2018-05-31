@@ -1,7 +1,7 @@
 routes = [
   {
     path: '/',
-    url: './index.html',
+    url: './index.jsp',
   },
   {
     path: '/about/',
@@ -19,6 +19,15 @@ routes = [
     path: '/account/',
     url: './pages/account.html',
   },
+  {
+    path: '/transfer/',
+    url: './pages/transfer.html',
+  },
+  {
+    path: '/transfertoaccount/',
+    url: './pages/transfertoaccount.html',
+  },
+
   // Page Loaders & Router
   {
     path: '/page-loader-template7/:user/:userId/:posts/:postId/',

@@ -64,6 +64,7 @@ var settingsView = app.views.create('#view-settings', {
   url: '/account/',
     on:{
       pageInit:function () {
+          console.log("account.pageInit");
           $$('.logout-button').on('click', function () {
               $.ajax({url:"/User?Action=2",async:false});
               location.reload();
@@ -72,7 +73,28 @@ var settingsView = app.views.create('#view-settings', {
       }
     }
 });
+var transferView = app.views.create('#view-transfer', {
+    url: '/transfer/',
+    on:{
+        pageInit:function () {
+            $$("#view-transfer .back").on('click',function () {
+                transferView.close('#view-transfer');
+            });
 
+        }
+    }
+});
+var transfertoaccountView = app.views.create('#view-transfertoaccount', {
+    url: '/transfertoaccount/',
+    on:{
+        pageInit:function () {
+            $$("#view-transfertoaccount .back").on('click',function () {
+                transfertoaccountView.close('#view-transfertoaccount');
+            });
+
+        }
+    }
+});
 
 // Login Screen Demo
 $$('#my-login-screen .login-button').on('click', function () {
@@ -219,3 +241,4 @@ $$("#register-screen .login-button").on('click',function () {
     });
 
 });
+
