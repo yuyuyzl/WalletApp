@@ -107,6 +107,8 @@ var homeView = app.views.create('#view-home', {
               $$("#transfer-2-confirm").off("click");
               $$("#transfer-2-confirm").on("click", function () {
 
+              });
+          }
       }
     }
 });
