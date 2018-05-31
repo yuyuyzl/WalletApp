@@ -27,6 +27,10 @@ routes = [
     path: '/transfertoaccount/',
     url: './pages/transfertoaccount.html',
   },
+  {
+    path: '/transfertoaccount2/',
+    url: './pages/transfertoaccount2.html',
+  },
 
   // Page Loaders & Router
   {

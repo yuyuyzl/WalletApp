@@ -49,14 +49,23 @@ var app  = new Framework7({
 var homeView = app.views.create('#view-home', {
   url: '/',
     on:{
-      pageInit:function () {
-          console.log("homeview init")
+      pageInit:function (page) {
+          console.log("pageInit "+page.name);
+          console.log(page);
           var uid = parseInt($.ajax({url: "/User", async: false}).responseText);
           console.log(uid);
 
           if (uid <=0) {
               app.loginScreen.open('#my-login-screen', true);
           }
+
+          //TODO 迷之特性研究
+          $$("#transfer-next-button").on("click",function () {
+              var username = $$('#targetUsername').val();
+              console.log(username);
+
+          });
+
       }
     }
 });
@@ -75,26 +84,11 @@ var settingsView = app.views.create('#view-settings', {
 });
 var transferView = app.views.create('#view-transfer', {
     url: '/transfer/',
-    on:{
-        pageInit:function () {
-            $$("#view-transfer .back").on('click',function () {
-                transferView.close('#view-transfer');
-            });
-
-        }
-    }
 });
 var transfertoaccountView = app.views.create('#view-transfertoaccount', {
     url: '/transfertoaccount/',
-    on:{
-        pageInit:function () {
-            $$("#view-transfertoaccount .back").on('click',function () {
-                transfertoaccountView.close('#view-transfertoaccount');
-            });
-
-        }
-    }
 });
+
 
 // Login Screen Demo
 $$('#my-login-screen .login-button').on('click', function () {
