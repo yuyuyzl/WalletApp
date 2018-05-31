@@ -87,6 +87,7 @@ var transferView = app.views.create('#view-transfer', {
 });
 var transfertoaccountView = app.views.create('#view-transfertoaccount', {
     url: '/transfertoaccount/',
+    
 });
 
 

@@ -289,11 +289,5 @@
   <!-- Your custom app scripts -->
   <script src="js/app.js"></script>
 
-  <script>
-      $$("#transfer-next-button").on('click',function () {
-          console.log("tnb click!")
-      });
-      console.log("tta")
-  </script>
 </body>
 </html>

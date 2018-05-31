@@ -12,7 +12,7 @@ public class testDubbo {
     public void TestDubbo(){
         DubboHandler.init();
         Map<String,Object> l=DubboHandler.INSTANCE.accountService.agencyInformation(1);
-
+        /*
         try{
             int res=DubboHandler.INSTANCE.accountService.userRegister(
                     "yuyuyzl1",
@@ -25,9 +25,9 @@ public class testDubbo {
         }catch (Exception e){
             e.printStackTrace();
         }
-
+*/
         DubboHandler.INSTANCE.accountService.userLogin("yuyuyzl",Encrypt.SHA256("123456"));
-
+        System.out.println(DubboHandler.INSTANCE.accountService.getID("yuyuyzl",true));
     }
 
 }
