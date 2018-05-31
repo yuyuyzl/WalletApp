@@ -32,6 +32,10 @@ routes = [
     url: './pages/transfertoaccount2.html',
   },
 
+  {
+    path: '/passwdchanging/',
+    url: './pages/passwdchanging.html',
+  },
   // Page Loaders & Router
   {
     path: '/page-loader-template7/:user/:userId/:posts/:postId/',

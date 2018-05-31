@@ -114,14 +114,15 @@
       </div>
 
 
-      <div id="view-settings" class="view tab">
-      </div>
-        <div id="view-transfer" class="view tab">
-        </div>
-        <div id="view-transfertoaccount" class="view tab">
-        </div>
+    <div id="view-settings" class="view tab">
     </div>
-
+    <div id="view-transfer" class="view tab">
+    </div>
+    <div id="view-transfertoaccount" class="view tab">
+    </div>
+    <div id="view-passwdchanging" class="view tab">
+    </div>
+  </div>
 
 
     <!-- Login Screen -->
