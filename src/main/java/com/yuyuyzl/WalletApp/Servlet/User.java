@@ -1,9 +1,7 @@
 package com.yuyuyzl.WalletApp.Servlet;
 
 import buaa.jj.accountservice.Encrypt;
-import buaa.jj.accountservice.exceptions.AgencyNotExistException;
-import buaa.jj.accountservice.exceptions.NameDuplicateException;
-import buaa.jj.accountservice.exceptions.UserAgencyDuplicateException;
+import buaa.jj.accountservice.exceptions.*;
 import com.yuyuyzl.WalletApp.Dubbo.DubboHandler;
 import com.yuyuyzl.WalletApp.Login.LoginHandler;
 
