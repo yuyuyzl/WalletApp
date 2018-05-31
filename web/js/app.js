@@ -223,13 +223,15 @@ var settingsView = app.views.create('#view-settings', {
 });
 var transferView = app.views.create('#view-transfer', {
     url: '/transfer/',
+    removeElements:false
 });
 var transfertoaccountView = app.views.create('#view-transfertoaccount', {
     url: '/transfertoaccount/',
-
+    removeElements:false
 });
 var transfertoaccount2View = app.views.create('#view-transfertoaccount2', {
     url: '/transfertoaccount2/',
+    removeElements:false
 });
 
 
