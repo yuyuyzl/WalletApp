@@ -114,15 +114,18 @@
       </div>
 
 
-    <div id="view-settings" class="view tab">
+      <div id="view-settings" class="view tab">
+      </div>
+      <div id="view-transfer" class="view tab">
+      </div>
+      <div id="view-transfertoaccount" class="view tab">
+      </div>
+      <div id="view-transfertoaccount2" class="view tab">
+      </div>
+      <div id="view-passwdchanging" class="view tab">
+      </div>
     </div>
-    <div id="view-transfer" class="view tab">
-    </div>
-    <div id="view-transfertoaccount" class="view tab">
-    </div>
-    <div id="view-passwdchanging" class="view tab">
-    </div>
-  </div>
+
 
 
     <!-- Login Screen -->
@@ -286,7 +289,7 @@
   <script src="javascript/jquery.min.js"></script>
   <!-- App routes -->
   <script src="js/routes.js"></script>
-
+  <script src="js/util.js"></script>
   <!-- Your custom app scripts -->
   <script src="js/app.js"></script>
 

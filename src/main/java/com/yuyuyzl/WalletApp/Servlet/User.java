@@ -1,7 +1,9 @@
 package com.yuyuyzl.WalletApp.Servlet;
 
 import buaa.jj.accountservice.Encrypt;
-import buaa.jj.accountservice.exceptions.*;
+import buaa.jj.accountservice.exceptions.AgencyNotExistException;
+import buaa.jj.accountservice.exceptions.NameDuplicateException;
+import buaa.jj.accountservice.exceptions.UserAgencyDuplicateException;
 import com.yuyuyzl.WalletApp.Dubbo.DubboHandler;
 import com.yuyuyzl.WalletApp.Login.LoginHandler;
 
@@ -11,7 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-
 public class User extends HttpServlet {
 
     @Override
@@ -36,7 +37,7 @@ public class User extends HttpServlet {
                 {
                     String username = request.getParameter("Username");
                     String password = request.getParameter("Password");
-                    System.out.println(username + " - " + password + " @ " + request.getSession().getId());
+                    System.out.print(username + " - " + password + " @ " + request.getSession().getId());
                     int uid = -1;
                     try {
                         uid = DubboHandler.INSTANCE.accountService.userLogin(username, Encrypt.SHA256(password));
@@ -62,10 +63,10 @@ public class User extends HttpServlet {
                     String ID = request.getParameter("ID");
                     String email = request.getParameter("email");
                     String realname = request.getParameter("realname");
-                    System.out.println(username + " - " + password + " @ " + request.getSession().getId());
-                    int uid = -1;
-                    try {
-                        uid = DubboHandler.INSTANCE.accountService.userRegister(
+                    System.out.print(username + " - " + password + " @ " + request.getSession().getId());
+                    int uid=-1;
+                    try{
+                        uid=DubboHandler.INSTANCE.accountService.userRegister(
                                 username,
                                 Encrypt.SHA256(password),
                                 realname,
@@ -74,17 +75,20 @@ public class User extends HttpServlet {
                                 ID,
                                 agencyID
                         );
-                    } catch (NameDuplicateException e) {
-                        out.println(-2);
-                        return;
-                    } catch (UserAgencyDuplicateException e) {
-                        out.println(-3);
-                        return;
-                    } catch (AgencyNotExistException e) {
-                        out.println(-4);
+                    }
+                    catch (NameDuplicateException e){
+                        out.print(-2);
                         return;
                     }
-                    out.println(uid);
+                    catch(UserAgencyDuplicateException e){
+                        out.print(-3);
+                        return;
+                    }
+                    catch (AgencyNotExistException e){
+                        out.print(-4);
+                        return;
+                    }
+                    out.print(uid);
                     return;
                 }
 
@@ -123,9 +127,8 @@ public class User extends HttpServlet {
                 }
             }
         }
-        out.println(LoginHandler.getUID(request.getSession().getId()));
+        out.print(LoginHandler.getUID(request.getSession().getId()));
     }
-
     public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         doGet(request,response);
