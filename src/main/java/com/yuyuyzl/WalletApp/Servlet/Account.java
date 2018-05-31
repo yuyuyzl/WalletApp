@@ -39,6 +39,15 @@ public class Account extends HttpServlet {
                     out.print(DubboHandler.INSTANCE.accountService.getID(username,true));
 
                     break;
+                case 2://findUser
+                    String uid = request.getParameter("uid");
+                    String amount = request.getParameter("amount");
+                    //TODO 检查余额是否足够
+                    if(DubboHandler.INSTANCE.accountService.transferConsume(LoginHandler.getUID(request.getSession().getId()),Integer.valueOf(uid),Double.valueOf(amount),false)){
+                        out.print(1);
+                    }else out.print(-1);
+
+                    break;
 
             }
         }

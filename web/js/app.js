@@ -106,7 +106,49 @@ var homeView = app.views.create('#view-home', {
               console.log(page.route.url.split('?')[1]);
               $$("#transfer-2-confirm").off("click");
               $$("#transfer-2-confirm").on("click", function () {
-
+                  var amount = $$('#transferAmount').val();
+                  if(parseFloat(amount)>0){
+                      var res=$.ajax({
+                          type: 'POST',
+                          url: '/Account',
+                          data: {
+                              Action: "2",
+                              uid:page.route.url.split('?')[1],
+                              amount:amount,
+                          },
+                          async: false
+                      }).responseText;
+                      if(res=='1'){
+                          app.dialog.create({
+                              title: '提示',
+                              text: '转账成功',
+                              buttons: [
+                                  {
+                                      text: 'OK',
+                                  }]
+                          }).open();
+                          page.router.navigate({url: "/" });
+                      }else {
+                          app.dialog.create({
+                              title: '错误',
+                              text: '转账失败',
+                              buttons: [
+                                  {
+                                      text: 'OK',
+                                  }]
+                          }).open();
+                      }
+                  }else {
+                      app.dialog.create({
+                          title: '错误',
+                          text: '输入金额有误',
+                          buttons: [
+                              {
+                                  text: 'OK',
+                              }]
+                      }).open();
+                      return;
+                  }
               });
           }
       }

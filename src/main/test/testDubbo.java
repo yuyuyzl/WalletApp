@@ -28,6 +28,7 @@ public class testDubbo {
 */
         DubboHandler.INSTANCE.accountService.userLogin("yuyuyzl",Encrypt.SHA256("123456"));
         System.out.println(DubboHandler.INSTANCE.accountService.getID("yuyuyzl",true));
+        System.out.println(DubboHandler.INSTANCE.accountService.transferConsume(9,11,99999,false));
     }
 
 }
