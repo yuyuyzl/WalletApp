@@ -95,31 +95,30 @@ public class User extends HttpServlet {
                     try {
                         int uid = LoginHandler.getUID(request.getSession().getId());
                         if (uid <= 0) {
-                            out.println(-1);
+                            out.print(-1);
                             return;
                         }
                         String initialPassword = request.getParameter("InitialPassword");
                         String password = request.getParameter("Password");
                         System.out.println(uid + " change : " + initialPassword + " to " + password);
-                        System.out.println(uid + " from   : " + initialPassword + " @ " + Encrypt.SHA256(initialPassword));
-
+//                        System.out.println(uid + " from   : " + initialPassword + " @ " + Encrypt.SHA256(initialPassword));
                         boolean okay = DubboHandler.INSTANCE.accountService.userPasswdChanging(
                                 uid,
                                 Encrypt.SHA256(initialPassword),
                                 Encrypt.SHA256(password)
                         );
                         System.out.println("change : okay");
-                        if (!okay) out.println(-4);
-                        else out.println(uid);
+                        if (!okay) out.print(-4);
+                        else out.print(uid);
                         return;
                     } catch (UserNotExistException e) {
-                        out.println(-2);
+                        out.print(-2);
                         return;
                     } catch (UserFrozenException e) {
-                        out.println(-3);
+                        out.print(-3);
                         return;
                     } catch (Exception e) {
-                        out.println(-5);
+                        out.print(-5);
                         return;
                     }
                 }

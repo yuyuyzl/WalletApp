@@ -51,7 +51,7 @@ var app  = new Framework7({
 var homeView = app.views.create('#view-home', {
   url: '/',
     on:{
-      pageInit:function (page) {
+        pageInit:function (page) {
           console.log("pageInit " + page.name);
           console.log(page);
           currentUser.id = parseInt($.ajax({url: "/User", async: false}).responseText);
@@ -164,73 +164,104 @@ var homeView = app.views.create('#view-home', {
                   }
               });
           }
-      }
+      },
+        pageBeforeIn(page){
+            if (page.name==='home') updateUserInfo();
+        }
     }
 });
+
+function updateUserInfo(){
+    console.log("reload user-information")
+    $.ajax({
+        type: 'POST',
+        url: '/Account',
+        data: {
+            Action: "3",
+            uid: currentUser.id,
+        },
+        success: function (data, textStatus, jqXHR) {
+            console.log('查询账户 : ' + data);
+            let info=JSON.parse(data);
+            $$('.userRealName').text(info.userRealName);
+            $$('.userName').text(info.userName);
+            $$('.agency').text(info.agency);
+            $$('.amountMoney').text(info.availableBalance.toFixed(2));
+        }
+    });
+}
 var settingsView = app.views.create('#view-settings', {
     url: '/account/',
     on: {
-        pageInit: function () {
-            console.log("account.pageInit");
-            $$('.logout-button').on('click', function () {
-                $.ajax({url: "/User?Action=2", async: false});
-                location.reload();
-            });
-            $$(".submit-password").on('click', function () {
-                var initialPassword = $$('#my-password-changing [name="initialPassword"]').val();
-                var password = $$('#my-password-changing [name="password"]').val();
-                var repeatPassword = $$('#my-password-changing [name="repeatPassword"]').val();
-                if (initialPassword === '') {
-                    alert_OK("输入有误", "初始密码不能为空");
-                    return;
-                } else if (password === '') {
-                    alert_OK("输入有误", "更改后的密码不能为空");
-                    return;
-                } else if (password === initialPassword) {
-                    alert_OK("输入有误", "更改的密码和原密码相同");
-                    return;
-                } else if (repeatPassword === '') {
-                    alert_OK("输入有误", "请重复输入一遍更改后的密码");
-                    return;
-                } else if (repeatPassword !== password) {
-                    alert_OK("输入有误", "两次新输入的密码不匹配");
-                    return;
-                }
-                console.log('submit new password : ' + initialPassword + ' -> ' + password);
-                $.ajax({
-                    type: 'POST',
-                    url: '/User',
-                    data: {
-                        Action: "4",
-                        InitialPassword: initialPassword,
-                        Password: password
-                    },
-                    success: function (data, textStatus, jqXHR) {
-                        console.log('修改密码ret : ' + data);
-                        switch (parseInt(data)) {
-                            case 0:
-                            case -1:
-                                alert_OK("修改密码失败", "服务器异常:没有uid");
-                                break;
-                            case -2:
-                                alert_OK("修改密码失败", "服务器异常:不存在此用户");
-                                break;
-                            case -3:
-                                alert_OK("修改密码失败", "服务器异常:用户被冻结");
-                                break;
-                            case -4:
-                                alert_OK("修改密码失败", "初始密码错误");
-                                break;
-                            case -5:
-                                alert_OK("修改密码失败","出现了其他的奇怪的问题,请联系管理员");
-                                break;
-                            default:
-                                alert_OK("修改密码成功", "修改密码成功");
-                                settingsView.router.back();
-                        }
-                    }
+        pageInit: function (page) {
+            console.log("account.pageInit : "+page.name);
+            if (page.name==='settings'){
+                $$('.logout-button').on('click', function () {
+                    $.ajax({url: "/User?Action=2", async: false});
+                    location.reload();
                 });
-            });
+            }
+            if (page.name === "change-password"){
+                $$(".submit-password").on('click', function () {
+                    let initialPassword = $$('#my-password-changing [name="initialPassword"]').val();
+                    let password = $$('#my-password-changing [name="password"]').val();
+                    let repeatPassword = $$('#my-password-changing [name="repeatPassword"]').val();
+                    if (initialPassword === '') {
+                        alert_OK("输入有误", "初始密码不能为空");
+                        return;
+                    } else if (password === '') {
+                        alert_OK("输入有误", "更改后的密码不能为空");
+                        return;
+                    } else if (password === initialPassword) {
+                        alert_OK("输入有误", "更改的密码和原密码相同");
+                        return;
+                    } else if (repeatPassword === '') {
+                        alert_OK("输入有误", "请重复输入一遍更改后的密码");
+                        return;
+                    } else if (repeatPassword !== password) {
+                        alert_OK("输入有误", "两次新输入的密码不匹配");
+                        return;
+                    }
+                    console.log('submit new password : ' + initialPassword + ' -> ' + password);
+                    $.ajax({
+                        type: 'POST',
+                        url: '/User',
+                        data: {
+                            Action: "4",
+                            InitialPassword: initialPassword,
+                            Password: password
+                        },
+                        success: function (data, textStatus, jqXHR) {
+                            console.log('修改密码ret : ' + data);
+                            switch (parseInt(data)) {
+                                case 0:
+                                case -1:
+                                    alert_OK("修改密码失败", "服务器异常:没有uid");
+                                    break;
+                                case -2:
+                                    alert_OK("修改密码失败", "服务器异常:不存在此用户");
+                                    break;
+                                case -3:
+                                    alert_OK("修改密码失败", "服务器异常:用户被冻结");
+                                    break;
+                                case -4:
+                                    alert_OK("修改密码失败", "初始密码错误");
+                                    break;
+                                case -5:
+                                    alert_OK("修改密码失败","出现了其他的奇怪的问题,请联系管理员");
+                                    break;
+                                default:
+                                    alert_OK("修改密码成功", "修改密码成功");
+                                    settingsView.router.back();
+                            }
+                        }
+                    });
+                });
+            }
+        },
+        pageBeforeIn(page) {
+            console.log("account.pageBeforeIn : " + page.name + "  uid=" + currentUser.id);
+            if (page.name === 'settings') updateUserInfo();
         }
     }
 });

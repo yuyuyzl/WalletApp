@@ -57,9 +57,10 @@ public class Account extends HttpServlet {
                 case 3://userinfo
                 {
                     int uid = Integer.valueOf(request.getParameter("uid"));
+                    System.out.println("query_info("+uid+")");
                     Map m=DubboHandler.INSTANCE.accountService.userInformation(uid);
                     Gson g=new Gson();
-
+//                    System.out.println("information : "+g.toJson(m));
                     out.print(g.toJson(m));
                 }
 
