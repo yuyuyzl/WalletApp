@@ -120,6 +120,7 @@ var homeView = app.views.create('#view-home', {
         $$("#transfer-2-confirm").off("click");
         $$("#transfer-2-confirm").on("click", function () {
           var amount = $$('#transferAmount').val();
+          // 这里的错误是因为这个东西解析到char就停止了; 我在底下加了个判断,可能这句可以去掉
           if (parseFloat(amount) > 0) {
             var res = $.ajax({
               type: 'POST',
@@ -150,6 +151,8 @@ var homeView = app.views.create('#view-home', {
                     text: 'OK',
                   }]
               }).open();
+            } else if (res === '-1') {
+              alert_OK("错误", "输入金额有误");
             } else {
               app.dialog.create({
                 title: '错误',
@@ -177,16 +180,39 @@ var homeView = app.views.create('#view-home', {
       if (page.name === "recharge") {
         $$("#submit-recharge").on("click", function () {
           let money = $$("#rechargeAmount").val();
-          //todo: 充值逻辑, 判断不合法
+          //todo: 充值的方法
           $.ajax({
             type: 'POST',
-            url: '/User',
+            url: '/Account',
             data: {
-              Action: "1",
+              Action: "4",
               Money: money,
+              uid: currentUser.id,
             },
             success: function (data, textStatus, jqXHR) {
               console.log("recharge" + data + money);
+              switch (parseInt(data)) {
+                case 0:
+                case -1:
+                  alert_OK("输入不合法", "请输入正确的钱数");
+                  break;
+                case -2:
+                  alert_OK("充值失败", "没有此用户");
+                  break;
+                case -3:
+                  alert_OK("输入不合法", "请不要反向充钱");
+                  break;
+                case -4:
+                  alert_OK("输入不合法", "土豪我们做朋友吧");
+                  break;
+                case -5:
+                  alert_OK("充值失败", "出现了未知错误");
+                  break;
+                default:
+                  alert_OK("充值成功", "充值成功");
+                  homeView.router.back();
+                  break;
+              }
             }
           });
         });

@@ -4,6 +4,7 @@ import buaa.jj.accountservice.Encrypt;
 import buaa.jj.accountservice.exceptions.AgencyNotExistException;
 import buaa.jj.accountservice.exceptions.NameDuplicateException;
 import buaa.jj.accountservice.exceptions.UserAgencyDuplicateException;
+import buaa.jj.accountservice.exceptions.UserNotExistException;
 import com.google.gson.Gson;
 import com.yuyuyzl.WalletApp.Dubbo.DubboHandler;
 import com.yuyuyzl.WalletApp.Login.LoginHandler;
@@ -50,13 +51,18 @@ public class Account extends HttpServlet {
                     int uid = Integer.valueOf(request.getParameter("uid"));
                     String amount = request.getParameter("amount");
                     //TODO 检查余额是否足够
-                    if (((BigDecimal)DubboHandler.INSTANCE.accountService.userInformation(LoginHandler.getUID(request.getSession().getId())).get("availableBalance")).doubleValue()<Double.valueOf(amount)){
-                        out.print(-2);
-                        return;
+                    try{
+                        double double_amount=Double.valueOf(amount);
+                        if (((BigDecimal) DubboHandler.INSTANCE.accountService.userInformation(LoginHandler.getUID(request.getSession().getId())).get("availableBalance")).doubleValue() < double_amount) {
+                            out.print(-2);
+                            return;
+                        }
+                        if (DubboHandler.INSTANCE.accountService.transferConsume(LoginHandler.getUID(request.getSession().getId()), uid, Double.valueOf(amount), false)) {
+                            out.print(1);
+                        } else out.print(-1);
+                    }catch (NumberFormatException e){
+                        out.print("-1");
                     }
-                    if (DubboHandler.INSTANCE.accountService.transferConsume(LoginHandler.getUID(request.getSession().getId()), uid, Double.valueOf(amount), false)) {
-                        out.print(1);
-                    } else out.print(-1);
                     break;
                 }
                 case 3://userinfo
@@ -72,8 +78,32 @@ public class Account extends HttpServlet {
                 case 4://recharge
                 {
                     int uid = Integer.valueOf(request.getParameter("uid"));
-                    String money=request.getParameter("money");
-                    System.out.println("update(" + uid + ")  "+money);
+                    String moneyString = request.getParameter("Money");
+                    if (moneyString.length()>12){
+                        out.print("-4");
+                        return;
+                    }
+                    boolean rechargePlatform = false;
+                    System.out.println("update(" + uid + ")  " + moneyString);
+                    try {
+                        double money = Double.valueOf(moneyString);
+                        if (money < 0) {
+                            out.print("-3");
+                            return;
+                        }
+                        System.out.println("charge - " + moneyString + "to" + money);
+                        DubboHandler.INSTANCE.accountService.reCharge(uid, money, rechargePlatform);
+                    } catch (NumberFormatException e) {
+                        out.print("-1");
+                        return;
+                    } catch (UserNotExistException e) {
+                        out.print("-2");
+                        return;
+                    } catch (Exception e) {
+                        out.print("-5");
+                        return;
+                    }
+                    out.print(uid);
                     break;
                 }
 
