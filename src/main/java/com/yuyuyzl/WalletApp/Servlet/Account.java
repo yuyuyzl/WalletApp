@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.math.BigDecimal;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -49,6 +50,10 @@ public class Account extends HttpServlet {
                     int uid = Integer.valueOf(request.getParameter("uid"));
                     String amount = request.getParameter("amount");
                     //TODO 检查余额是否足够
+                    if (((BigDecimal)DubboHandler.INSTANCE.accountService.userInformation(LoginHandler.getUID(request.getSession().getId())).get("availableBalance")).doubleValue()<Double.valueOf(amount)){
+                        out.print(-2);
+                        return;
+                    }
                     if (DubboHandler.INSTANCE.accountService.transferConsume(LoginHandler.getUID(request.getSession().getId()), uid, Double.valueOf(amount), false)) {
                         out.print(1);
                     } else out.print(-1);

@@ -141,7 +141,16 @@ var homeView = app.views.create('#view-home', {
                                   }]
                           }).open();
                           page.router.navigate({url: "/" });
-                      }else {
+                      }else if(res=='-2'){
+                          app.dialog.create({
+                              title: '错误',
+                              text: '余额不足',
+                              buttons: [
+                                  {
+                                      text: 'OK',
+                                  }]
+                          }).open();
+                      }else{
                           app.dialog.create({
                               title: '错误',
                               text: '转账失败',
