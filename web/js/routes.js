@@ -31,7 +31,10 @@ routes = [
     path: '/transfertoaccount2/',
     url: './pages/transfertoaccount2.html',
   },
-
+  {
+    path: '/recharge/',
+    url: './pages/recharge.html',
+  },
   {
     path: '/passwdchanging/',
     url: './pages/passwdchanging.html',
@@ -83,14 +86,14 @@ routes = [
 
         // Resolve route to load page
         resolve(
-          {
-            componentUrl: './pages/request-and-load.html',
-          },
-          {
-            context: {
-              user: user,
+            {
+              componentUrl: './pages/request-and-load.html',
+            },
+            {
+              context: {
+                user: user,
+              }
             }
-          }
         );
       }, 1000);
     },

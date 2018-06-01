@@ -97,7 +97,7 @@
                     <p>提现</p>
                   </div>
                 </a>
-                <a class="col button home-fw recharge-button" style="border-right-style: none!important;">
+                <a class="col button home-fw recharge-button" href="/recharge/" style="border-right-style: none!important;">
                   <div class="home-braket" style="margin-top: calc(100% - 1px)!important;"></div>
                   <div class="home-button">
                     <i class="f7-icons size-50">login_fill</i>
@@ -123,6 +123,8 @@
       <div id="view-transfertoaccount2" class="view tab">
       </div>
       <div id="view-passwdchanging" class="view tab">
+      </div>
+      <div id="view-recharge" class="view tab">
       </div>
     </div>
 

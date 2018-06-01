@@ -19,7 +19,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 public class Account extends HttpServlet {
-        @Override
+    @Override
     public void init() throws ServletException {
         super.init();
         DubboHandler.init();
@@ -33,9 +33,9 @@ public class Account extends HttpServlet {
         response.setCharacterEncoding("utf-8");
         PrintWriter out = response.getWriter();
 
-        if(LoginHandler.getUID(request.getSession().getId())<0)return;
+        if (LoginHandler.getUID(request.getSession().getId()) < 0) return;
 
-        if(request.getParameter("Action")!=null) {
+        if (request.getParameter("Action") != null) {
             int action = Integer.valueOf(request.getParameter("Action"));
             switch (action) {
                 case 1://findUser
@@ -43,8 +43,8 @@ public class Account extends HttpServlet {
                     String username = request.getParameter("Username");
 
                     out.print(DubboHandler.INSTANCE.accountService.getID(username, true));
-                }
                     break;
+                }
                 case 2://transfer
                 {
                     int uid = Integer.valueOf(request.getParameter("uid"));
@@ -57,24 +57,33 @@ public class Account extends HttpServlet {
                     if (DubboHandler.INSTANCE.accountService.transferConsume(LoginHandler.getUID(request.getSession().getId()), uid, Double.valueOf(amount), false)) {
                         out.print(1);
                     } else out.print(-1);
-                }
                     break;
+                }
                 case 3://userinfo
                 {
                     int uid = Integer.valueOf(request.getParameter("uid"));
-                    System.out.println("query_info("+uid+")");
-                    Map m=DubboHandler.INSTANCE.accountService.userInformation(uid);
-                    Gson g=new Gson();
+                    System.out.println("query_info(" + uid + ")");
+                    Map m = DubboHandler.INSTANCE.accountService.userInformation(uid);
+                    Gson g = new Gson();
 //                    System.out.println("information : "+g.toJson(m));
                     out.print(g.toJson(m));
+                    break;
+                }
+                case 4://recharge
+                {
+                    int uid = Integer.valueOf(request.getParameter("uid"));
+                    String money=request.getParameter("money");
+                    System.out.println("update(" + uid + ")  "+money);
+                    break;
                 }
 
             }
         }
         //out.print(-1);
     }
+
     public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        doGet(request,response);
+        doGet(request, response);
     }
 }
