@@ -51,8 +51,8 @@ public class Account extends HttpServlet {
                     int uid = Integer.valueOf(request.getParameter("uid"));
                     String amount = request.getParameter("amount");
                     //TODO 检查余额是否足够
-                    try{
-                        double double_amount=Double.valueOf(amount);
+                    try {
+                        double double_amount = Double.valueOf(amount);
                         if (((BigDecimal) DubboHandler.INSTANCE.accountService.userInformation(LoginHandler.getUID(request.getSession().getId())).get("availableBalance")).doubleValue() < double_amount) {
                             out.print(-2);
                             return;
@@ -60,7 +60,7 @@ public class Account extends HttpServlet {
                         if (DubboHandler.INSTANCE.accountService.transferConsume(LoginHandler.getUID(request.getSession().getId()), uid, Double.valueOf(amount), false)) {
                             out.print(1);
                         } else out.print(-1);
-                    }catch (NumberFormatException e){
+                    } catch (NumberFormatException e) {
                         out.print("-1");
                     }
                     break;
@@ -79,12 +79,15 @@ public class Account extends HttpServlet {
                 {
                     int uid = Integer.valueOf(request.getParameter("uid"));
                     String moneyString = request.getParameter("Money");
-                    if (moneyString.length()>12){
+                    String way = request.getParameter("Way");
+                    if (moneyString.length() > 12) {
                         out.print("-4");
                         return;
                     }
-                    boolean rechargePlatform = false;
-                    System.out.println("update(" + uid + ")  " + moneyString);
+                    boolean rechargePlatform;
+                    if (way.equals("wechat")) rechargePlatform = false;
+                    else rechargePlatform = true;
+                    System.out.println("update(" + uid + ")  " + moneyString + way);
                     try {
                         double money = Double.valueOf(moneyString);
                         if (money < 0) {

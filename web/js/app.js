@@ -61,7 +61,6 @@ var homeView = app.views.create('#view-home', {
         app.loginScreen.open('#my-login-screen', true);
       }
 
-
       if (page.name == "transfertoaccount") {
         //TODO 迷之特性研究
         $$("#transfer-next-button").off("click");
@@ -180,7 +179,7 @@ var homeView = app.views.create('#view-home', {
       if (page.name === "recharge") {
         $$("#submit-recharge").on("click", function () {
           let money = $$("#rechargeAmount").val();
-          //todo: 充值的方法
+          let way = $$("input[type='radio']:checked").val();
           $.ajax({
             type: 'POST',
             url: '/Account',
@@ -188,9 +187,10 @@ var homeView = app.views.create('#view-home', {
               Action: "4",
               Money: money,
               uid: currentUser.id,
+              Way: way,
             },
             success: function (data, textStatus, jqXHR) {
-              console.log("recharge" + data + money);
+              console.log("recharge" + data + " " + money + ' way: ' + way);
               switch (parseInt(data)) {
                 case 0:
                 case -1:
@@ -421,7 +421,7 @@ $$("#register-screen .login-button").on('click', function () {
   var realname = $$('#register-screen [name="realname"]').val();
   var repeatPassword = $$('#register-screen [name="repeatPassword"]').val();
   var ID = $$('#register-screen [name="ID"]').val();
-  if (password != repeatPassword) {
+  if (password !== repeatPassword) {
     app.dialog.create({
       title: '注册失败',
       text: '确认密码不匹配',
