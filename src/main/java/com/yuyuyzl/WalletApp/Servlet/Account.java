@@ -4,6 +4,7 @@ import buaa.jj.accountservice.Encrypt;
 import buaa.jj.accountservice.exceptions.AgencyNotExistException;
 import buaa.jj.accountservice.exceptions.NameDuplicateException;
 import buaa.jj.accountservice.exceptions.UserAgencyDuplicateException;
+import com.google.gson.Gson;
 import com.yuyuyzl.WalletApp.Dubbo.DubboHandler;
 import com.yuyuyzl.WalletApp.Login.LoginHandler;
 
@@ -13,6 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Iterator;
+import java.util.Map;
 
 public class Account extends HttpServlet {
         @Override
@@ -29,25 +32,36 @@ public class Account extends HttpServlet {
         response.setCharacterEncoding("utf-8");
         PrintWriter out = response.getWriter();
 
+        if(LoginHandler.getUID(request.getSession().getId())<0)return;
 
         if(request.getParameter("Action")!=null) {
             int action = Integer.valueOf(request.getParameter("Action"));
             switch (action) {
                 case 1://findUser
+                {
                     String username = request.getParameter("Username");
 
-                    out.print(DubboHandler.INSTANCE.accountService.getID(username,true));
-
+                    out.print(DubboHandler.INSTANCE.accountService.getID(username, true));
+                }
                     break;
-                case 2://findUser
-                    String uid = request.getParameter("uid");
+                case 2://transfer
+                {
+                    int uid = Integer.valueOf(request.getParameter("uid"));
                     String amount = request.getParameter("amount");
                     //TODO 检查余额是否足够
-                    if(DubboHandler.INSTANCE.accountService.transferConsume(LoginHandler.getUID(request.getSession().getId()),Integer.valueOf(uid),Double.valueOf(amount),false)){
+                    if (DubboHandler.INSTANCE.accountService.transferConsume(LoginHandler.getUID(request.getSession().getId()), uid, Double.valueOf(amount), false)) {
                         out.print(1);
-                    }else out.print(-1);
-
+                    } else out.print(-1);
+                }
                     break;
+                case 3://userinfo
+                {
+                    int uid = Integer.valueOf(request.getParameter("uid"));
+                    Map m=DubboHandler.INSTANCE.accountService.userInformation(uid);
+                    Gson g=new Gson();
+
+                    out.print(g.toJson(m));
+                }
 
             }
         }

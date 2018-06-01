@@ -104,6 +104,19 @@ var homeView = app.views.create('#view-home', {
           }
           if (page.name == "transfertoaccount2") {
               console.log(page.route.url.split('?')[1]);
+
+              var userInfo = JSON.parse($.ajax({
+                  type: 'POST',
+                  url: '/Account',
+                  data: {
+                      Action: "3",
+                      uid:page.route.url.split('?')[1],
+                  },
+                  async: false
+              }).responseText);
+              console.log(userInfo);
+              $$("#p-userName")[0].innerHTML=userInfo['userName']+' ('+shadeStr(userInfo['userRealName'])+')';
+              $$("#p-mobile")[0].innerHTML=shadeStr(userInfo['userTel']);
               $$("#transfer-2-confirm").off("click");
               $$("#transfer-2-confirm").on("click", function () {
                   var amount = $$('#transferAmount').val();
@@ -244,6 +257,18 @@ function alert_OK(title, text) {
                 text: 'OK',
             }]
     }).open();
+}
+
+function shadeStr(str) {
+    var l=str.length;
+    var sstart=Math.floor(l/3);
+    var send=Math.ceil(l*2/3);
+    var s="";
+    for(var i=sstart;i<send;i++){
+        s=s+'*';
+    }
+    s=str.substring(0,sstart)+s+str.substring(send);
+    return s;
 }
 
 var passwdchangingView = app.views.create('#view-passwdchanging', {

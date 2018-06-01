@@ -123,6 +123,8 @@ public class User extends HttpServlet {
                         return;
                     }
                 }
+
+
             }
         }
         out.print(LoginHandler.getUID(request.getSession().getId()));
