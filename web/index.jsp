@@ -90,7 +90,7 @@
                 </div>
                 </a>
 
-                <a class="col button home-fw draw-money-button">
+                <a class="col button home-fw draw-money-button" href="/drawmoney/">
                   <div class="home-braket"></div>
                   <div class="home-button">
                     <i class="f7-icons size-50">money_yen</i>
@@ -125,6 +125,8 @@
       <div id="view-passwdchanging" class="view tab">
       </div>
       <div id="view-recharge" class="view tab">
+      </div>
+      <div id="view-drawmoney" class="view tab">
       </div>
     </div>
 

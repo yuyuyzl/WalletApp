@@ -36,6 +36,10 @@ routes = [
     url: './pages/recharge.html',
   },
   {
+    path: '/drawmoney/',
+    url: './pages/drawmoney.html',
+  },
+  {
     path: '/passwdchanging/',
     url: './pages/passwdchanging.html',
   },

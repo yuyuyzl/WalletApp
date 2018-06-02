@@ -76,6 +76,7 @@ public class Account extends HttpServlet {
                     break;
                 }
                 case 4://recharge
+                case 5://drawMoney
                 {
                     int uid = Integer.valueOf(request.getParameter("uid"));
                     String moneyString = request.getParameter("Money");
@@ -94,8 +95,11 @@ public class Account extends HttpServlet {
                             out.print("-3");
                             return;
                         }
-                        System.out.println("charge - " + moneyString + "to" + money);
-                        DubboHandler.INSTANCE.accountService.reCharge(uid, money, rechargePlatform);
+                        System.out.println("change - " + moneyString + " money : " + money);
+                        if (action==4)
+                            DubboHandler.INSTANCE.accountService.reCharge(uid, money, rechargePlatform);
+                        else
+                            DubboHandler.INSTANCE.accountService.drawMoney(uid, money, rechargePlatform);
                     } catch (NumberFormatException e) {
                         out.print("-1");
                         return;

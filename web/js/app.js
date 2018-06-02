@@ -217,6 +217,47 @@ var homeView = app.views.create('#view-home', {
           });
         });
       }
+      if (page.name === "drawmoney") {
+        $$("#submit-drawmoney").on("click", function () {
+          let money = $$("#drawAmount").val();
+          let way = $$("input[type='radio']:checked").val();
+          $.ajax({
+            type: 'POST',
+            url: '/Account',
+            data: {
+              Action: "5",
+              Money: money,
+              uid: currentUser.id,
+              Way: way,
+            },
+            success: function (data, textStatus, jqXHR) {
+              console.log("draw" + data + " " + money + ' way: ' + way);
+              switch (parseInt(data)) {
+                case 0:
+                case -1:
+                  alert_OK("输入不合法", "请输入正确的钱数");
+                  break;
+                case -2:
+                  alert_OK("提现失败", "没有此用户");
+                  break;
+                case -3:
+                  alert_OK("输入不合法", "请不要反向提现");
+                  break;
+                case -4:
+                  alert_OK("输入不合法", "超出单次提现限额");
+                  break;
+                case -5:
+                  alert_OK("提现失败", "出现了未知错误");
+                  break;
+                default:
+                  alert_OK("提现成功", "提现成功");
+                  homeView.router.back();
+                  break;
+              }
+            }
+          });
+        });
+      }
     },
     pageBeforeIn(page) {
       if (page.name === 'home') updateUserInfo();
@@ -240,10 +281,12 @@ function updateUserInfo() {
         return;
       }
       let info = JSON.parse(data);
+      //这里有bug, 精度损失了
+      console.log(info);
       $$('.userRealName').text(info.userRealName);
       $$('.userName').text(info.userName);
       $$('.agency').text(info.agency);
-      $$('.amountMoney').text(info.availableBalance.toFixed(2));
+      $$('.amountMoney').text(info.availableBalance);
     }
   });
 }
@@ -338,6 +381,10 @@ var transfertoaccount2View = app.views.create('#view-transfertoaccount2', {
 
 var rechargeView = app.views.create('#view-recharge', {
   url: '/recharge/',
+  removeElements: false
+});
+var rechargeView = app.views.create('#view-drawmoney', {
+  url: '/drawmoney/',
   removeElements: false
 });
 
