@@ -50,7 +50,7 @@ public class Account extends HttpServlet {
                 {
                     int uid = Integer.valueOf(request.getParameter("uid"));
                     String amount = request.getParameter("amount");
-                    //TODO 检查余额是否足够
+
                     try {
                         double double_amount = Double.valueOf(amount);
                         if (((BigDecimal) DubboHandler.INSTANCE.accountService.userInformation(LoginHandler.getUID(request.getSession().getId())).get("availableBalance")).doubleValue() < double_amount) {
