@@ -177,6 +177,9 @@ var homeView = app.views.create('#view-home', {
       }
 
       if (page.name === "recharge") {
+        $$("#rechargeAmount").on("input",function () {
+          this.value=limitstrlength(this.value,15);
+        });
         $$("#submit-recharge").on("click", function () {
           let money = $$("#rechargeAmount").val();
           let way = $$("input[type='radio']:checked").val();
@@ -219,7 +222,9 @@ var homeView = app.views.create('#view-home', {
       }
       if (page.name === "drawmoney") {
         updateUserInfo();
-        //TODO : 输入框限制输入最多12位
+        $$("#drawAmount").on("input",function () {
+          this.value=limitstrlength(this.value,15);
+        });
         $$("#submit-drawmoney").on("click", function () {
           let money = $$("#drawAmount").val();
           let way = $$("input[type='radio']:checked").val();
@@ -415,6 +420,11 @@ function shadeStr(str) {
   }
   s = str.substring(0, sstart) + s + str.substring(send);
   return s;
+}
+
+function limitstrlength(str,limit){
+  if (str.length>limit) return str.substr(0,limit);
+  return str;
 }
 
 var passwdchangingView = app.views.create('#view-passwdchanging', {

@@ -81,7 +81,7 @@ public class Account extends HttpServlet {
                     int uid = Integer.valueOf(request.getParameter("uid"));
                     String moneyString = request.getParameter("Money");
                     String way = request.getParameter("Way");
-                    if (moneyString.length() > 12) {
+                    if (moneyString.length() > 20) {// 长度过长,可能会传输不过去
                         out.print("-4");
                         return;
                     }
