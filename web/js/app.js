@@ -218,6 +218,7 @@ var homeView = app.views.create('#view-home', {
         });
       }
       if (page.name === "drawmoney") {
+        updateUserInfo();
         //TODO : 输入框限制输入最多12位
         $$("#submit-drawmoney").on("click", function () {
           let money = $$("#drawAmount").val();
@@ -250,6 +251,9 @@ var homeView = app.views.create('#view-home', {
                 case -5:
                   alert_OK("提现失败", "出现了未知错误");
                   break;
+                case -6:
+                  alert_OK("提现失败", "余额不足");
+                  break;
                 default:
                   alert_OK("提现成功", "提现成功");
                   homeView.router.back();
@@ -267,7 +271,8 @@ var homeView = app.views.create('#view-home', {
 });
 
 function updateUserInfo() {
-  console.log("reload user-information")
+  //todo: 检测输出是否合法
+  console.log("reload user-information");
   $.ajax({
     type: 'POST',
     url: '/Account',
@@ -276,18 +281,18 @@ function updateUserInfo() {
       uid: currentUser.id,
     },
     success: function (data, textStatus, jqXHR) {
-      console.log('查询账户 : ' + data);
+      // console.log('查询账户 : ' + data);
       if (data === '') {
         console.log('not found');
         return;
       }
-      //这里有bug, 数字过大精度会损失, 会变成实数(?)
+      //这里有bug, 数字过大精度会损失, 会变成实数(?) 但现在无法复现bug
       let info = JSON.parse(data);
-      console.log(info);
+      // console.log(info);
       $$('.userRealName').text(info.userRealName);
       $$('.userName').text(info.userName);
       $$('.agency').text(info.agency);
-      $$('.amountMoney').text(info.availableBalance);
+      $$('.amountMoney').text(info.availableBalance.toFixed(2));
     }
   });
 }

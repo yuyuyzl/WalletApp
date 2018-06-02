@@ -96,10 +96,15 @@ public class Account extends HttpServlet {
                             return;
                         }
                         System.out.println("change - " + moneyString + " money : " + money);
-                        if (action==4)
+                        if (action == 4) {
                             DubboHandler.INSTANCE.accountService.reCharge(uid, money, rechargePlatform);
-                        else
+                        } else {
+                            if (((BigDecimal) DubboHandler.INSTANCE.accountService.userInformation(LoginHandler.getUID(request.getSession().getId())).get("availableBalance")).doubleValue() < money) {
+                                out.print("-6");
+                                return;
+                            }
                             DubboHandler.INSTANCE.accountService.drawMoney(uid, money, rechargePlatform);
+                        }
                     } catch (NumberFormatException e) {
                         out.print("-1");
                         return;
