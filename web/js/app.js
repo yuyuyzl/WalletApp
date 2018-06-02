@@ -218,6 +218,7 @@ var homeView = app.views.create('#view-home', {
         });
       }
       if (page.name === "drawmoney") {
+        //TODO : 输入框限制输入最多12位
         $$("#submit-drawmoney").on("click", function () {
           let money = $$("#drawAmount").val();
           let way = $$("input[type='radio']:checked").val();
@@ -280,8 +281,8 @@ function updateUserInfo() {
         console.log('not found');
         return;
       }
+      //这里有bug, 数字过大精度会损失, 会变成实数(?)
       let info = JSON.parse(data);
-      //这里有bug, 精度损失了
       console.log(info);
       $$('.userRealName').text(info.userRealName);
       $$('.userName').text(info.userName);
