@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+
 public class User extends HttpServlet {
 
     @Override
@@ -62,9 +63,9 @@ public class User extends HttpServlet {
                     String email = request.getParameter("email");
                     String realname = request.getParameter("realname");
                     System.out.print(username + " - " + password + " @ " + request.getSession().getId());
-                    int uid=-1;
-                    try{
-                        uid=DubboHandler.INSTANCE.accountService.userRegister(
+                    int uid = -1;
+                    try {
+                        uid = DubboHandler.INSTANCE.accountService.userRegister(
                                 username,
                                 Encrypt.SHA256(password),
                                 realname,
@@ -73,16 +74,13 @@ public class User extends HttpServlet {
                                 ID,
                                 agencyID
                         );
-                    }
-                    catch (NameDuplicateException e){
+                    } catch (NameDuplicateException e) {
                         out.print(-2);
                         return;
-                    }
-                    catch(UserAgencyDuplicateException e){
+                    } catch (UserAgencyDuplicateException e) {
                         out.print(-3);
                         return;
-                    }
-                    catch (AgencyNotExistException e){
+                    } catch (AgencyNotExistException e) {
                         out.print(-4);
                         return;
                     }
@@ -123,13 +121,41 @@ public class User extends HttpServlet {
                     }
                 }
 
-
+                case 5: //forget-password
+                {
+                    String username = request.getParameter("Username");
+                    String userIdentity = request.getParameter("userIdentity");
+                    String password = request.getParameter("Password");
+                    try {
+                        boolean okay = DubboHandler.INSTANCE.accountService.foundPasswd(
+                                username,
+                                userIdentity,
+                                Encrypt.SHA256(password)
+                        );
+                        System.out.println("forget - " + username + " - " + userIdentity + " to " + password + okay);
+                        if (!okay) {
+                            out.print(-3);
+                            return;
+                        } else {
+                            //这里是为了返回一个true的值
+                            out.print(Integer.MAX_VALUE);
+                            return;
+                        }
+                    } catch (UserNotExistException e) {
+                        out.print(-1);
+                        return;
+                    } catch (UserFrozenException e) {
+                        out.print(-2);
+                        return;
+                    }
+                }
             }
         }
         out.print(LoginHandler.getUID(request.getSession().getId()));
     }
+
     public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        doGet(request,response);
+        doGet(request, response);
     }
 }

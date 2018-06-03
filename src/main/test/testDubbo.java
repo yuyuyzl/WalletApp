@@ -27,10 +27,11 @@ public class testDubbo {
             e.printStackTrace();
         }
 */
+
+        System.out.println(DubboHandler.INSTANCE.accountService.foundPasswd("1","11",""));
         DubboHandler.INSTANCE.accountService.userLogin("yuyuyzl",Encrypt.SHA256("123456"));
         System.out.println(DubboHandler.INSTANCE.accountService.getID("yuyuyzl",true));
         List<Map<String, String>> m=DubboHandler.INSTANCE.accountService.userTradeInformation(9,"2018/5/1","2018/6/3",2);
         System.out.println("PAUSE HERE");
     }
-
 }

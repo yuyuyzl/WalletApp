@@ -177,8 +177,8 @@ var homeView = app.views.create('#view-home', {
       }
 
       if (page.name === "recharge") {
-        $$("#rechargeAmount").on("input",function () {
-          this.value=limitstrlength(this.value,15);
+        $$("#rechargeAmount").on("input", function () {
+          this.value = limitstrlength(this.value, 15);
         });
         $$("#submit-recharge").on("click", function () {
           let money = $$("#rechargeAmount").val();
@@ -222,8 +222,8 @@ var homeView = app.views.create('#view-home', {
       }
       if (page.name === "drawmoney") {
         updateUserInfo();
-        $$("#drawAmount").on("input",function () {
-          this.value=limitstrlength(this.value,15);
+        $$("#drawAmount").on("input", function () {
+          this.value = limitstrlength(this.value, 15);
         });
         $$("#submit-drawmoney").on("click", function () {
           let money = $$("#drawAmount").val();
@@ -293,7 +293,7 @@ function updateUserInfo() {
       }
       //这里有bug, 数字过大精度会损失, 会变成实数(?) 但现在无法复现bug
       let info = JSON.parse(data);
-      // console.log(info);
+      console.log(info);
       $$('.userRealName').text(info.userRealName);
       $$('.userName').text(info.userName);
       $$('.agency').text(info.agency);
@@ -422,8 +422,8 @@ function shadeStr(str) {
   return s;
 }
 
-function limitstrlength(str,limit){
-  if (str.length>limit) return str.substr(0,limit);
+function limitstrlength(str, limit) {
+  if (str.length > limit) return str.substr(0, limit);
   return str;
 }
 
@@ -579,3 +579,109 @@ $$("#register-screen .login-button").on('click', function () {
 
 });
 
+
+$$('#my-login-screen .foundPasswd-button').on('click', function () {
+  app.loginScreen.open('#foundPasswd-screen', true);
+});
+
+
+$$("#foundPasswd-screen .back").on('click', function () {
+  app.loginScreen.close('#foundPasswd-screen');
+});
+
+$$("#foundPasswd-screen .login-button").on('click', function () {
+  let username = $$('#foundPasswd-screen [name="username"]').val();
+  let userIdentity = $$('#foundPasswd-screen [name="ID"]').val();
+  let password = '';
+  if (username === '') {
+    alert_OK("查询失败", "未输入用户名");
+    return;
+  } else if (userIdentity === '') {
+    alert_OK("查询失败", "未输入证件号");
+    return;
+  }
+  console.log("check-user:" + username + "; " + userIdentity + "; " + password);
+  $.ajax({
+    type: 'POST',
+    url: '/User',
+    data: {
+      Action: "5",
+      userIdentity: userIdentity,
+      Username: username,
+      Password: password
+    },
+    success: function (data, textStatus, jqXHR) {
+      console.log(data);
+      switch (parseInt(data)) {
+        case 0:
+        case -1:
+          alert_OK("查询失败","不存在此用户名");
+          break;
+        case -2:
+          alert_OK("查询失败","用户被冻结");
+          break;
+        case -3:
+          alert_OK("查询失败","证件号码不匹配");
+          break;
+        default:
+          app.loginScreen.open("#foundPasswd-screen2");
+      }
+    }
+  });
+});
+
+$$("#foundPasswd-screen2 .back").on('click', function () {
+  app.loginScreen.close('#foundPasswd-screen');
+  app.loginScreen.close('#foundPasswd-screen2');
+});
+
+$$("#foundPasswd-screen2 .login-button").on('click', function () {
+  let password = $$('#foundPasswd-screen2 [name="password"]').val();
+  let repeatPassword = $$('#foundPasswd-screen2 [name="repeatPassword"]').val();
+  if (password === '') {
+    alert_OK("更改密码失败", "未输入新密码");
+    return;
+  } if (repeatPassword === '') {
+    alert_OK("更改密码失败", "请重复一遍刚刚输入的密码");
+    return;
+  } else if (password !== repeatPassword) {
+    alert_OK("更改密码失败", "两次输入的密码不同");
+    return;
+  }
+  let username = $$('#foundPasswd-screen [name="username"]').val();
+  let userIdentity = $$('#foundPasswd-screen [name="ID"]').val();
+  console.log("change-password:" + username + "; " + userIdentity + "; " + password);
+  $.ajax({
+    type: 'POST',
+    url: '/User',
+    data: {
+      Action: "5",
+      userIdentity: userIdentity,
+      Username: username,
+      Password: password
+    },
+    success: function (data, textStatus, jqXHR) {
+      console.log(data);
+      switch (parseInt(data)) {
+        case 0:
+        case -1:
+          alert_OK("更改密码失败","不存在此用户名");
+          break;
+        case -2:
+          alert_OK("更改密码失败","用户被冻结");
+          break;
+        case -3:
+          alert_OK("更改密码失败","密码不匹配");
+          break;
+        default:
+          alert_OK("修改成功","请使用新的密码登录");
+          app.loginScreen.close("#foundPasswd-screen");
+          app.loginScreen.close("#foundPasswd-screen2");
+          $$('#foundPasswd2-screen [name="repeatPassword"]').val("");
+          $$('#foundPasswd2-screen [name="password"]').val("");
+          $$('#foundPasswd-screen [name="username"]').val("");
+          $$('#foundPasswd-screen [name="ID"]').val("");
+      }
+    }
+  });
+});
