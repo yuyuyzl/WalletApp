@@ -169,8 +169,7 @@
                 <a href="#" class="item-link button button-big button-fill login-button">登录</a>
               </li>
             </ul>
-            <div class="block-footer">没有账户？ <a href="#" class="link register-button">现在注册</a></div>
-            <div class="block-footer">忘记密码？ <a href="#" class="link foundPasswd-button">找回密码</a></div>
+            <div class="block-footer"><a href="#" class="link register-button">现在注册</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<a href="#" class="link foundPasswd-button">找回密码</a></div>
           </div>
         </div>
       </div>
@@ -328,7 +327,7 @@
                 <a href="#" class="item-link button button-big button-fill login-button">确认</a>
               </li>
             </ul>
-            <div class="block-footer">您的真实(?)信息我们保证<br/>不会泄露给他人</div>
+            <!--<div class="block-footer">您的真实(?)信息我们保证<br/>不会泄露给他人</div>-->
           </div>
         </div>
       </div>
@@ -381,7 +380,7 @@
                 <a href="#" class="item-link button button-big button-fill login-button">确认</a>
               </li>
             </ul>
-            <div class="block-footer">您的真实(?)信息我们保证<br/>不会泄露给他人</div>
+            <!--<div class="block-footer">您的真实(?)信息我们保证<br/>不会泄露给他人</div>-->
           </div>
         </div>
       </div>
