@@ -6,6 +6,8 @@ import buaa.jj.accountservice.exceptions.NameDuplicateException;
 import buaa.jj.accountservice.exceptions.UserAgencyDuplicateException;
 import buaa.jj.accountservice.exceptions.UserNotExistException;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.yuyuyzl.WalletApp.Dubbo.DubboHandler;
 import com.yuyuyzl.WalletApp.Login.LoginHandler;
 
@@ -15,9 +17,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.lang.reflect.Type;
 import java.math.BigDecimal;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 public class Account extends HttpServlet {
     @Override
@@ -125,6 +127,31 @@ public class Account extends HttpServlet {
                     }
                     out.print(uid);
                     break;
+                }
+                case 6://userTradeInfo
+                    // http://localhost:8080/Account?Action=6&uid=9&tradetype=2&startdate=2018-05-01%2000:00:00&enddate=2018-07-01%2000:00:00
+                {
+                    Gson gson = new GsonBuilder().enableComplexMapKeySerialization().create();
+                    int userID=Integer.valueOf(request.getParameter("uid"));
+                    String startDate=request.getParameter("startdate");
+                    String endDate=request.getParameter("enddate");
+                    int tradeType=Integer.valueOf(request.getParameter("tradetype"));
+                    List<Map<String, String>> l = DubboHandler.INSTANCE.accountService.userTradeInformation(userID, startDate, endDate, tradeType);
+                    List<Map<String,String>> res=new ArrayList<Map<String, String>>();
+                    for (Map<String,String> map:l) {
+
+                        Map.Entry<String,String> entry=map.entrySet().iterator().next();
+
+
+                        String jsonString = entry.getValue();
+                        Type type = new TypeToken<Map<String, String>>() {}.getType();
+                        Map<String, String> map2 = gson.fromJson(jsonString, type);
+                        map2.put("trade_id",entry.getKey());
+                        res.add(map2);
+                        //System.out.println(map2.toString());
+                    }
+                    out.print(gson.toJson(res));
+
                 }
 
             }

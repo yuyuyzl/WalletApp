@@ -3,8 +3,7 @@ package com.yuyuyzl.WalletApp.Dubbo;
 import buaa.jj.accountservice.api.AccountService;
 import buaa.jj.accountservice.exceptions.*;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class AccountServiceTestWrapper implements AccountService {
     private AccountService accountService;
@@ -57,7 +56,33 @@ public class AccountServiceTestWrapper implements AccountService {
     }
 
     public List<Map<String, String>> userTradeInformation(int user_id, String start_date, String end_date, int trade_type) {
-        return accountService.userTradeInformation(user_id, start_date, end_date, trade_type);
+        //return accountService.userTradeInformation(user_id, start_date, end_date, trade_type);
+        List<Map<String, String>> l=new ArrayList<Map<String, String>>();
+        for (int i=0;i<5;i++){
+            Map<String,String>map=new HashMap<String, String>();
+            /*
+            {"date_time":"2018-06-04 12:00:00","institution_id":"1","sum":"100.00","type":"true","user_id":""}
+            type=isAlipay
+
+            {"collection_institution_id":"1","collection_user_id":"1","date_time":"2018-06-04 12:00:00","payment_institution_id":"1","payment_user_id":"1","sum":"23.33","type":"true"}
+            type=isPayment
+             */
+            switch (trade_type){
+                case 0:
+                    map.put("UT"+String.valueOf(i),"{\"date_time\":\"2018-06-04 12:00:00\",\"institution_id\":\"1\",\"sum\":\"100.00\",\"type\":\"true\",\"user_id\":\""+String.valueOf(user_id)+"\"}");
+                    break;
+                case 1:
+                    map.put("UT"+String.valueOf(i),"{\"date_time\":\"2018-06-04 12:00:00\",\"institution_id\":\"1\",\"sum\":\"-100.00\",\"type\":\"true\",\"user_id\":\""+String.valueOf(user_id)+"\"}");
+                    break;
+                case 2:
+                    if (i%2==0)
+                    map.put("UT"+String.valueOf(i),"{\"collection_institution_id\":\"1\",\"collection_user_id\":\""+String.valueOf(user_id)+"\",\"date_time\":\"2018-06-04 12:00:00\",\"payment_institution_id\":\"1\",\"payment_user_id\":\"1\",\"sum\":\"23.33\",\"type\":\"true\"}");
+                    else map.put("UT"+String.valueOf(i+10),"{\"collection_institution_id\":\"1\",\"collection_user_id\":\"1\",\"date_time\":\"2018-06-04 12:00:00\",\"payment_institution_id\":\"1\",\"payment_user_id\":\""+String.valueOf(user_id)+"\",\"sum\":\"23.33\",\"type\":\"true\"}");
+                    break;
+            }
+            l.add(map);
+        }
+        return l;
     }
 
     public boolean transferConsume(int pay_user_id, int get_user_id, double amount, boolean trade_type) throws UserNotExistException, UserFrozenException {
