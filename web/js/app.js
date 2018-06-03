@@ -592,7 +592,7 @@ $$("#foundPasswd-screen .back").on('click', function () {
 $$("#foundPasswd-screen .login-button").on('click', function () {
   let username = $$('#foundPasswd-screen [name="username"]').val();
   let userIdentity = $$('#foundPasswd-screen [name="ID"]').val();
-  let password = '';
+  let password = '123456';
   if (username === '') {
     alert_OK("查询失败", "未输入用户名");
     return;
@@ -624,6 +624,7 @@ $$("#foundPasswd-screen .login-button").on('click', function () {
           alert_OK("查询失败","证件号码不匹配");
           break;
         default:
+          alert_OK("查询成功","已将密码更新为123456, 请更改密码:");
           app.loginScreen.open("#foundPasswd-screen2");
       }
     }
@@ -677,8 +678,8 @@ $$("#foundPasswd-screen2 .login-button").on('click', function () {
           alert_OK("修改成功","请使用新的密码登录");
           app.loginScreen.close("#foundPasswd-screen");
           app.loginScreen.close("#foundPasswd-screen2");
-          $$('#foundPasswd2-screen [name="repeatPassword"]').val("");
-          $$('#foundPasswd2-screen [name="password"]').val("");
+          $$('#foundPasswd-screen2 [name="repeatPassword"]').val("");
+          $$('#foundPasswd-screen2 [name="password"]').val("");
           $$('#foundPasswd-screen [name="username"]').val("");
           $$('#foundPasswd-screen [name="ID"]').val("");
       }
