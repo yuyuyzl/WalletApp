@@ -133,8 +133,30 @@ public class Account extends HttpServlet {
                 {
                     Gson gson = new GsonBuilder().enableComplexMapKeySerialization().create();
                     int userID=Integer.valueOf(request.getParameter("uid"));
-                    String startDate=request.getParameter("startdate");
-                    String endDate=request.getParameter("enddate");
+                    String startDate="1980-01-01 00:00:00",endDate="2099-12-31 23:59:59";
+                    int page=-1;
+                    if(request.getParameter("startdate")!=null) {
+                        startDate = request.getParameter("startdate");
+                        endDate = request.getParameter("enddate");
+                    }else if(request.getParameter("page")!=null){
+                        page=Integer.valueOf(request.getParameter("page"));
+                    }else page=1;
+                    if(page!=-1){
+                        int thisYear=new Date().getYear()+1900;
+                        int thisMonth=new Date().getMonth()+1;
+                        thisMonth=thisMonth-page+1;
+                        while(thisMonth<0){
+                            thisYear-=1;
+                            thisMonth+=12;
+                        }
+                        endDate=""+thisYear+"-"+(thisMonth<10?"0":"")+thisMonth+"-"+"31 23:59:59";
+                        thisMonth=thisMonth-1;
+                        while(thisMonth<0){
+                            thisYear-=1;
+                            thisMonth+=12;
+                        }
+                        startDate=""+thisYear+"-"+(thisMonth<10?"0":"")+thisMonth+"-"+"01 00:00:00";
+                    }
                     int tradeType=Integer.valueOf(request.getParameter("tradetype"));
                     List<Map<String, String>> l = DubboHandler.INSTANCE.accountService.userTradeInformation(userID, startDate, endDate, tradeType);
                     List<Map<String,String>> res=new ArrayList<Map<String, String>>();
@@ -150,6 +172,13 @@ public class Account extends HttpServlet {
                         res.add(map2);
                         //System.out.println(map2.toString());
                     }
+                    Collections.sort(res,new Comparator<Map<String, String>>() {
+                        public int compare(Map<String, String> o1, Map<String, String> o2) {
+                            return -o1.get("date_time").compareTo(o2.get("date_time"));
+                        }
+                    });
+                    System.out.println(startDate);
+                    System.out.println(endDate);
                     out.print(gson.toJson(res));
 
                 }
