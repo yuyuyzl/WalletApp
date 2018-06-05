@@ -45,6 +45,12 @@ var app = new Framework7({
   // App routes
   routes: routes,
 
+  dialog: {
+    title: '简易钱包系统',
+    buttonOk: 'OK',
+    buttonCancel: 'Cancel',
+  },
+  alert: {}
 });
 
 // Init/Create views
@@ -118,8 +124,31 @@ var homeView = app.views.create('#view-home', {
         $$("#p-mobile")[0].innerHTML = shadeStr(userInfo['userTel']);
         $$("#transfer-2-confirm").off("click");
         $$("#transfer-2-confirm").on("click", function () {
+          app.dialog.password('请输入密码', function (password) {
+            let username = $$('.userName').text();
+            console.log("transfermoney" + username + " " + password);
+            $.ajax({
+              type: 'POST',
+              url: '/User',
+              data: {
+                Action: "6",
+                Username: username,
+                Password: password
+              },
+              success: function (data, textStatus, jqXHR) {
+                console.log("transfer-login" + " " + data);
+                if (parseInt(data) !== -1) {
+                  actualtransfer();
+                } else {
+                  alert_OK("提现失败", "密码错误");
+                }
+              }
+            });
+          });
+        });
+
+        function actualtransfer() {
           var amount = $$('#transferAmount').val();
-          // 这里的错误是因为这个东西解析到char就停止了; 我在底下加了个判断,可能这句可以去掉
           if (parseFloat(amount) > 0) {
             var res = $.ajax({
               type: 'POST',
@@ -173,7 +202,7 @@ var homeView = app.views.create('#view-home', {
             }).open();
             return;
           }
-        });
+        };
       }
 
       if (page.name === "recharge") {
@@ -221,51 +250,75 @@ var homeView = app.views.create('#view-home', {
         });
       }
       if (page.name === "drawmoney") {
-        updateUserInfo();
+        updateUserInfo();//这里是刷新钱数
         $$("#drawAmount").on("input", function () {
           this.value = limitstrlength(this.value, 15);
         });
         $$("#submit-drawmoney").on("click", function () {
-          let money = $$("#drawAmount").val();
-          let way = $$("input[type='radio']:checked").val();
-          $.ajax({
-            type: 'POST',
-            url: '/Account',
-            data: {
-              Action: "5",
-              Money: money,
-              uid: currentUser.id,
-              Way: way,
-            },
-            success: function (data, textStatus, jqXHR) {
-              console.log("draw" + data + " " + money + ' way: ' + way);
-              switch (parseInt(data)) {
-                case 0:
-                case -1:
-                  alert_OK("输入不合法", "请输入正确的钱数");
-                  break;
-                case -2:
-                  alert_OK("提现失败", "没有此用户");
-                  break;
-                case -3:
-                  alert_OK("输入不合法", "请不要反向提现");
-                  break;
-                case -4:
-                  alert_OK("输入不合法", "超出单次提现限额");
-                  break;
-                case -5:
-                  alert_OK("提现失败", "出现了未知错误");
-                  break;
-                case -6:
-                  alert_OK("提现失败", "余额不足");
-                  break;
-                default:
-                  alert_OK("提现成功", "提现成功");
-                  homeView.router.back();
-                  break;
+          app.dialog.password('请输入密码', function (password) {
+            let username = $$('.userName').text();
+            console.log("drawmoney" + username + " " + password);
+            $.ajax({
+              type: 'POST',
+              url: '/User',
+              data: {
+                Action: "6",
+                Username: username,
+                Password: password
+              },
+              success: function (data, textStatus, jqXHR) {
+                console.log("draw-login" + " " + data);
+                if (parseInt(data) !== -1) {
+                  actualdrawmoney();
+                } else {
+                  alert_OK("提现失败", "密码错误");
+                }
               }
-            }
+            });
           });
+
+          function actualdrawmoney() {
+            let money = $$("#drawAmount").val();
+            let way = $$("input[type='radio']:checked").val();
+            $.ajax({
+              type: 'POST',
+              url: '/Account',
+              data: {
+                Action: "5",
+                Money: money,
+                uid: currentUser.id,
+                Way: way,
+              },
+              success: function (data, textStatus, jqXHR) {
+                console.log("draw" + data + " " + money + ' way: ' + way);
+                switch (parseInt(data)) {
+                  case 0:
+                  case -1:
+                    alert_OK("输入不合法", "请输入正确的钱数");
+                    break;
+                  case -2:
+                    alert_OK("提现失败", "没有此用户");
+                    break;
+                  case -3:
+                    alert_OK("输入不合法", "请不要反向提现");
+                    break;
+                  case -4:
+                    alert_OK("输入不合法", "超出单次提现限额");
+                    break;
+                  case -5:
+                    alert_OK("提现失败", "出现了未知错误");
+                    break;
+                  case -6:
+                    alert_OK("提现失败", "余额不足");
+                    break;
+                  default:
+                    alert_OK("提现成功", "提现成功");
+                    homeView.router.back();
+                    break;
+                }
+              }
+            });
+          }
         });
       }
     },
@@ -615,16 +668,16 @@ $$("#foundPasswd-screen .login-button").on('click', function () {
       switch (parseInt(data)) {
         case 0:
         case -1:
-          alert_OK("查询失败","不存在此用户名");
+          alert_OK("查询失败", "不存在此用户名");
           break;
         case -2:
-          alert_OK("查询失败","用户被冻结");
+          alert_OK("查询失败", "用户被冻结");
           break;
         case -3:
-          alert_OK("查询失败","证件号码不匹配");
+          alert_OK("查询失败", "证件号码不匹配");
           break;
         default:
-          alert_OK("查询成功","已将密码更新为123456, 请更改密码:");
+          alert_OK("查询成功", "已将密码更新为123456, 请更改密码:");
           app.loginScreen.open("#foundPasswd-screen2");
       }
     }
@@ -642,7 +695,7 @@ $$("#foundPasswd-screen2 .login-button").on('click', function () {
   if (password === '') {
     alert_OK("更改密码失败", "未输入新密码");
     return;
-  } if (repeatPassword === '') {
+  } else if (repeatPassword === '') {
     alert_OK("更改密码失败", "请重复一遍刚刚输入的密码");
     return;
   } else if (password !== repeatPassword) {
@@ -666,16 +719,16 @@ $$("#foundPasswd-screen2 .login-button").on('click', function () {
       switch (parseInt(data)) {
         case 0:
         case -1:
-          alert_OK("更改密码失败","不存在此用户名");
+          alert_OK("更改密码失败", "不存在此用户名");
           break;
         case -2:
-          alert_OK("更改密码失败","用户被冻结");
+          alert_OK("更改密码失败", "用户被冻结");
           break;
         case -3:
-          alert_OK("更改密码失败","密码不匹配");
+          alert_OK("更改密码失败", "密码不匹配");
           break;
         default:
-          alert_OK("修改成功","请使用新的密码登录");
+          alert_OK("修改成功", "请使用新的密码登录");
           app.loginScreen.close("#foundPasswd-screen");
           app.loginScreen.close("#foundPasswd-screen2");
           $$('#foundPasswd-screen2 [name="repeatPassword"]').val("");
