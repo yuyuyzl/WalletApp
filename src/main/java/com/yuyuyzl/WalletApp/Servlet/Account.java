@@ -164,13 +164,25 @@ public class Account extends HttpServlet {
 
                         Map.Entry<String,String> entry=map.entrySet().iterator().next();
 
+                        if(entry.getKey().length()>0 && entry.getValue().length()>0) {
 
-                        String jsonString = entry.getValue();
-                        Type type = new TypeToken<Map<String, String>>() {}.getType();
-                        Map<String, String> map2 = gson.fromJson(jsonString, type);
-                        map2.put("trade_id",entry.getKey());
-                        map2.put("trade_type",String.valueOf(tradeType));
-                        res.add(map2);
+                            String jsonString = entry.getValue();
+                            Type type = new TypeToken<Map<String, String>>() {
+                            }.getType();
+                            Map<String, String> map2 = gson.fromJson(jsonString, type);
+                            map2.put("trade_id", entry.getKey());
+                            map2.put("trade_type", String.valueOf(tradeType));
+                            switch (tradeType){
+                                case 2:
+                                    //collection_user_id payment_user_id
+                                    map2.put("collection_user_name",DubboHandler.INSTANCE.accountService.userInformation(Integer.valueOf(map2.get("collection_user_id"))).get("userName").toString());
+                                    map2.put("payment_user_name",DubboHandler.INSTANCE.accountService.userInformation(Integer.valueOf(map2.get("payment_user_id"))).get("userName").toString());
+                                    break;
+
+                            }
+                            res.add(map2);
+                        }else
+                            System.out.println("EMPTY TRADE FOUND");
                         //System.out.println(map2.toString());
                     }
                     Collections.sort(res,new Comparator<Map<String, String>>() {

@@ -14,7 +14,7 @@ resetTradeInfo=function(){
     tradeInfo=tradeInfo.sort(function (a,b) {
         return -a['date_time'].localeCompare(b['date_time']);
     });
-
+    console.log(tradeInfo);
 
 };
 

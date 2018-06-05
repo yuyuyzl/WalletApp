@@ -20,14 +20,29 @@
                             <div class="item-inner">
                                 <div class="item-title">
                                     {{#js_if "this['trade_type']==2"}}
-                                    <div class="item-header">转账</div>
+                                        {{#js_if "parseInt(this['collection_user_id'])==currentUser.id"}}
+                                        <div class="item-header">转账给</div>
+                                        {{this['payment_user_name']}}
+                                        {{else}}
+                                        <div class="item-header">收款自</div>
+                                        {{this['collection_user_name']}}
+                                        {{/js_if}}
+
                                     {{else}}
                                         {{#js_if "this['trade_type']==1"}}
-                                        <div class="item-header">提现</div>
+                                        <div class="item-header">提现到</div>
                                         {{else}}
-                                        <div class="item-header">充值</div>
+                                        <div class="item-header">充值自</div>
+                                        {{/js_if}}
+
+
+                                        {{#js_if "this['type']=='true'"}}
+                                        支付宝
+                                        {{else}}
+                                        微信
                                         {{/js_if}}
                                     {{/js_if}}
+
                                     <div class="item-footer">{{this['date_time']}}</div>
                                 </div>
 
