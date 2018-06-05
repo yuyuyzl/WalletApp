@@ -149,6 +149,21 @@ public class User extends HttpServlet {
                         return;
                     }
                 }
+
+                case 6: //check-password
+                {
+                    String username = request.getParameter("Username");
+                    String password = request.getParameter("Password");
+                    System.out.println("check : " + username + " " + password);
+                    try {
+                        int uid = DubboHandler.INSTANCE.accountService.userLogin(username, Encrypt.SHA256(password));
+                        out.print(uid);
+                        return;
+                    } catch (Exception e) {
+                        out.print(Integer.MAX_VALUE);//假装OK, 下一层check
+                        return;
+                    }
+                }
             }
         }
         out.print(LoginHandler.getUID(request.getSession().getId()));
