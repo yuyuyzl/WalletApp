@@ -132,7 +132,7 @@ public class Account extends HttpServlet {
                     // http://localhost:8080/Account?Action=6&uid=9&tradetype=2&startdate=2018-05-01%2000:00:00&enddate=2018-07-01%2000:00:00
                 {
                     Gson gson = new GsonBuilder().enableComplexMapKeySerialization().create();
-                    int userID=Integer.valueOf(request.getParameter("uid"));
+                    int userID=LoginHandler.getUID(request.getSession().getId());
                     String startDate="1980-01-01 00:00:00",endDate="2099-12-31 23:59:59";
                     int page=-1;
                     if(request.getParameter("startdate")!=null) {
@@ -169,6 +169,7 @@ public class Account extends HttpServlet {
                         Type type = new TypeToken<Map<String, String>>() {}.getType();
                         Map<String, String> map2 = gson.fromJson(jsonString, type);
                         map2.put("trade_id",entry.getKey());
+                        map2.put("trade_type",String.valueOf(tradeType));
                         res.add(map2);
                         //System.out.println(map2.toString());
                     }

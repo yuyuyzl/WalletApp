@@ -108,7 +108,18 @@
             </div>
 
           </div>
+          <div class="row">
+            <div class="col">
+              <div class="block-title">最近交易</div>
+            </div>
+            <div class="col">
 
+            </div>
+          </div>
+
+          <div class="block block-strong">
+
+          </div>
 
         </div>
       </div>
@@ -128,6 +139,8 @@
     <div id="view-recharge" class="view tab">
     </div>
     <div id="view-drawmoney" class="view tab">
+    </div>
+    <div id="view-tradeInfoList" class="view tab">
     </div>
   </div>
 

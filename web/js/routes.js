@@ -43,6 +43,10 @@ routes = [
     path: '/passwdchanging/',
     url: './pages/passwdchanging.html',
   },
+  {
+    path: '/tradeinfolist/',
+    componentUrl: './pages/tradeInfoList.html',
+  },
   // Page Loaders & Router
   {
     path: '/page-loader-template7/:user/:userId/:posts/:postId/',

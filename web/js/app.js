@@ -3,6 +3,30 @@ var $$ = Dom7;
 var currentUser = {
   id: -1,
 };
+var tradeInfo;
+resetTradeInfo=function(){
+    tradeInfo=[];
+    for (var tradetype=0;tradetype<=2;tradetype++){
+        var tradeInfoRes=JSON.parse($.ajax({url: "/Account?Action=6&tradetype="+tradetype, async: false}).responseText);
+        //console.log(tradeInfoRes);
+        tradeInfo=tradeInfo.concat(tradeInfoRes);
+    }
+    tradeInfo=tradeInfo.sort(function (a,b) {
+        return -a['date_time'].localeCompare(b['date_time']);
+    });
+
+
+};
+
+getTradeInfo=function () {
+    // Must return an object
+    return {
+        tradeInfo: function(){
+            console.log("GTI CALLED");
+            return tradeInfo;
+        }
+    }
+}
 // Framework7 App main instance
 var app = new Framework7({
   root: '#app', // App root element
@@ -60,7 +84,9 @@ var homeView = app.views.create('#view-home', {
       if (currentUser.id <= 0) {
         app.loginScreen.open('#my-login-screen', true);
       }
-
+      if(currentUser.id>=0 && tradeInfo==null){
+        resetTradeInfo();
+      }
       if (page.name == "transfertoaccount") {
         //TODO 迷之特性研究
         $$("#transfer-next-button").off("click");
@@ -398,6 +424,10 @@ var rechargeView = app.views.create('#view-drawmoney', {
   url: '/drawmoney/',
   removeElements: false
 });
+var tradeinfolistView = app.views.create('#view-tradeInfoList', {
+  url: '/tradeinfolist/',
+  removeElements: false,
+});
 
 function alert_OK(title, text) {
   app.dialog.create({
@@ -686,3 +716,4 @@ $$("#foundPasswd-screen2 .login-button").on('click', function () {
     }
   });
 });
+

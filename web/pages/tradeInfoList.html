@@ -1,0 +1,50 @@
+<template>
+<div class="page" data-name="tradeInfoList">
+    <div class="navbar">
+        <div class="navbar-inner sliding">
+            <div class="left">
+                <a href="#" class="link back">
+                    <i class="icon icon-back"></i>
+                    <span class="ios-only">Back</span>
+                </a>
+            </div>
+            <div class="title">账单</div>
+        </div>
+    </div>
+        <div class="page-content infinite-scroll-content">
+            <div class="list ">
+                <ul id="tilul">
+                    {{#each tradeInfo}}
+                    <li>
+                        <a href="#" class="item-link item-content">
+                            <div class="item-inner">
+                                <div class="item-title">
+                                    {{#js_if "this['trade_type']==2"}}
+                                    <div class="item-header">转账</div>
+                                    {{else}}
+                                        {{#js_if "this['trade_type']==1"}}
+                                        <div class="item-header">提现</div>
+                                        {{else}}
+                                        <div class="item-header">充值</div>
+                                        {{/js_if}}
+                                    {{/js_if}}
+                                    <div class="item-footer">{{this['date_time']}}</div>
+                                </div>
+
+                                <div class="item-after">¥<span>{{this['sum']}}</span></div>
+                            </div>
+                        </a>
+                    </li>
+                    {{/each}}
+                </ul>
+            </div>
+            <div class="preloader infinite-scroll-preloader"></div>
+        </div>
+
+</div>
+</template>
+<script>
+    return{
+        data: getTradeInfo
+    }
+</script>
