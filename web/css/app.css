@@ -52,6 +52,10 @@
     font-size: 36px;
 }
 
+.home-button p{
+  font-size: 18px;
+}
+
 .md .links-list a:after{
     margin-left: -16px;
 }

@@ -108,19 +108,19 @@
             </div>
 
           </div>
-          <div class="row">
-            <div class="col">
-              <div class="block-title">最近交易</div>
-            </div>
-            <div class="col">
 
-            </div>
+          <div class="list ">
+            <ul id="homeTradeInfo">
+              <li>
+                <a href="/tradeInfoList/" class="item-link item-content">
+                  <div class="item-inner">
+                    <div class="item-title">最近交易</div>
+                    <div class="item-after">更多</div>
+                  </div>
+                </a>
+              </li>
+            </ul>
           </div>
-
-          <div class="block block-strong">
-
-          </div>
-
         </div>
       </div>
     </div>
