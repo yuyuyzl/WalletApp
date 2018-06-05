@@ -45,13 +45,13 @@
           <i class="icon f7-icons ios-only">home</i>
           <i class="icon f7-icons ios-only icon-ios-fill">home_fill</i>
           <i class="icon material-icons md-only">home</i>
-          <span class="tabbar-label">Home</span>
+          <span class="tabbar-label">首页</span>
         </a>
         <a href="#view-settings" class="tab-link">
-          <i class="icon f7-icons ios-only">settings</i>
-          <i class="icon f7-icons ios-only icon-ios-fill">settings_fill</i>
-          <i class="icon material-icons md-only">settings</i>
-          <span class="tabbar-label">Settings</span>
+          <i class="icon f7-icons ios-only">person</i>
+          <i class="icon f7-icons ios-only icon-ios-fill">person_fill</i>
+          <i class="icon material-icons md-only">person</i>
+          <span class="tabbar-label">账户</span>
         </a>
       </div>
     </div>
@@ -93,7 +93,7 @@
               <a class="col button home-fw draw-money-button" href="/drawmoney/">
                 <div class="home-braket"></div>
                 <div class="home-button">
-                  <i class="f7-icons size-50">money_yen</i>
+                  <i class="f7-icons size-50">money_yen_fill</i>
                   <p>提现</p>
                 </div>
               </a>
