@@ -70,7 +70,7 @@ var app = new Framework7({
   routes: routes,
 
   dialog: {
-    title: '简易钱包系统',
+    title: 'WalletApp',
     buttonOk: 'OK',
     buttonCancel: 'Cancel',
   },
