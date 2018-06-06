@@ -8,13 +8,36 @@
                         <span class="ios-only">Back</span>
                     </a>
                 </div>
-                <div class="title">交易详情</div>
+                <div class="title">账单详情</div>
             </div>
         </div>
         <div class="page-content">
-            <div class="block-title">{{trade['trade_id']}}</div>
-            <div class="block block-strong">
-                {{trade}}
+            <div class="block text-align-center">
+                <p>
+                {{#js_if "this.trade['trade_type']==2"}}
+                {{trade['targetUserInfo']['userName']}}
+
+                {{else}}
+                {{#js_if "this.trade['trade_type']==1"}}
+                提现
+                {{else}}
+                充值
+                {{/js_if}}
+                &nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;
+
+                {{#js_if "this.trade['type']=='true'"}}
+                支付宝
+                {{else}}
+                微信
+                {{/js_if}}
+                {{/js_if}}
+                </p>
+                <h3>
+                    {{#if trade['isAdd']}}+{{else}}-{{/if}}
+                </h3>
+            </div>
+            <div class="list no-hairlines-md block block-strong">
+                <ul></ul>
             </div>
         </div>
     </div>
@@ -32,7 +55,29 @@
                 }
             }
 
+            if(currentTrade['trade_type']==2){
+                var targetUID=0;
+                if(parseInt(currentTrade['collection_user_id'])==currentUser.id){
+                    targetUID=currentTrade['payment_user_id'];
+                    currentTrade['isAdd']=true;
+                } else {
+                    targetUID=currentTrade['collection_user_id'];
+                    currentTrade['isAdd']=false;
+                }
+                var userInfo = JSON.parse($.ajax({
+                    type: 'POST',
+                    url: '/Account',
+                    data: {
+                        Action: "3",
+                        uid: targetUID
+                    },
+                    async: false
+                }).responseText);
+                currentTrade['targetUserInfo']=userInfo;
+            }else {if(currentTrade['trade_type']==1)currentTrade['isAdd']=false;else currentTrade['isAdd']=true;}
+
             console.log(currentTrade);
+
             return {
                 trade: currentTrade,
             };
