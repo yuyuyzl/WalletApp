@@ -16,6 +16,10 @@ routes = [
     componentUrl: './pages/product.html',
   },
   {
+    path: '/tradeInfo/:id/',
+    componentUrl: './pages/tradeInfo.html',
+  },
+  {
     path: '/account/',
     url: './pages/account.html',
   },

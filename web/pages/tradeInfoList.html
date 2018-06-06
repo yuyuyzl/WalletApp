@@ -16,7 +16,7 @@
                 <ul id="tilul">
                     {{#each tradeInfo}}
                     <li>
-                        <a href="#" class="item-link item-content">
+                        <a href="/tradeInfo/{{this['trade_id']}}/" class="item-link item-content">
                             <div class="item-inner">
                                 <div class="item-title">
                                     {{#js_if "this['trade_type']==2"}}

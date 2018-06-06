@@ -110,7 +110,7 @@
           </div>
 
           <div class="list ">
-            <ul id="homeTradeInfo">
+            <ul >
               <li>
                 <a href="/tradeInfoList/" class="item-link item-content">
                   <div class="item-inner">
@@ -119,6 +119,8 @@
                   </div>
                 </a>
               </li>
+                <div id="homeTradeInfo">
+                </div>
             </ul>
           </div>
         </div>

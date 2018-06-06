@@ -71,8 +71,8 @@ var app = new Framework7({
 
   dialog: {
     title: 'WalletApp',
-    buttonOk: 'OK',
-    buttonCancel: 'Cancel',
+    buttonOk: '确定',
+    buttonCancel: '取消',
   },
   alert: {}
 });
@@ -90,8 +90,38 @@ var homeView = app.views.create('#view-home', {
       if (currentUser.id <= 0) {
         app.loginScreen.open('#my-login-screen', true);
       }
-      if(currentUser.id>=0 && tradeInfo==null){
+      if(currentUser.id>=0 && page.name=="home"){
         resetTradeInfo();
+        var htiHtml="";
+        for(var i=0;i<=2;i++){
+            if(tradeInfo.length<=i)break;
+            var trade=tradeInfo[i];
+            htiHtml+=
+                "<li>\n" +
+                "    <a href=\"/tradeInfo/"+trade['trade_id']+"/\" class=\"item-link item-content\">\n" +
+                "        <div class=\"item-inner\">\n" +
+                "            <div class=\"item-title\">\n" ;
+            if(trade['trade_type']==2){
+                if(parseInt(trade['collection_user_id'])==currentUser.id)
+                    htiHtml+="<div class=\"item-header\">转账给</div>"+trade['payment_user_name'];
+                else
+                    htiHtml+="<div class=\"item-header\">收款自</div>"+trade['collection_user_name'];
+            }else {
+                if (trade['trade_type'] == 1)
+                    htiHtml += "<div class=\"item-header\">提现到</div>";
+                else htiHtml += "<div class=\"item-header\">充值自</div>";
+                htiHtml += (trade['type'] == 'true') ? '支付宝' : '微信';
+            }
+            htiHtml+=
+                "                <div class=\"item-footer\">"+trade['date_time']+"</div>\n" +
+                "            </div>\n" +
+                "            <div class=\"item-after\">¥<span>"+trade['sum']+"</span></div>\n" +
+                "        </div>\n" +
+                "    </a>\n" +
+                "</li>";
+
+        }
+        $$('#homeTradeInfo').html(htiHtml);
       }
       if (page.name == "transfertoaccount") {
         //TODO 迷之特性研究
@@ -515,7 +545,6 @@ var passwdchangingView = app.views.create('#view-passwdchanging', {
 });
 
 
-// Login Screen Demo
 $$('#my-login-screen .login-button').on('click', function () {
   var username = $$('#my-login-screen [name="username"]').val();
   var password = $$('#my-login-screen [name="password"]').val();
@@ -532,7 +561,7 @@ $$('#my-login-screen .login-button').on('click', function () {
       console.log(data);
       if (parseInt(data) != -1) {
         // Close login screen
-        app.loginScreen.close('#my-login-screen');
+        //app.loginScreen.close('#my-login-screen');
         location.reload();
       } else {
         $$('#my-login-screen [name="password"]').val('');
