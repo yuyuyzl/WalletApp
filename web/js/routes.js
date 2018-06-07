@@ -2,6 +2,9 @@ routes = [
   {
     path: '/',
     url: './index.jsp',
+      options:{
+
+      }
   },
   {
     path: '/about/',

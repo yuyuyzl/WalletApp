@@ -5,6 +5,7 @@ var currentUser = {
 };
 var tradeInfo;
 resetTradeInfo=function(){
+    console.log("reset trade info start")
     tradeInfo=[];
     for (var tradetype=0;tradetype<=2;tradetype++){
         var tradeInfoRes=JSON.parse($.ajax({url: "Account?Action=6&tradetype="+tradetype, async: false}).responseText);
@@ -15,7 +16,7 @@ resetTradeInfo=function(){
         return -a['date_time'].localeCompare(b['date_time']);
     });
     console.log(tradeInfo);
-
+    if(homeView!=null)homeView.router.refreshPage();
 };
 
 getTradeInfo=function () {
@@ -103,9 +104,9 @@ var homeView = app.views.create('#view-home', {
                 "            <div class=\"item-title\">\n" ;
             if(trade['trade_type']==2){
                 if(parseInt(trade['collection_user_id'])==currentUser.id)
-                    htiHtml+="<div class=\"item-header\">转账给</div>"+trade['payment_user_name'];
+                    htiHtml+="<div class=\"item-header\">收款自</div>"+trade['payment_user_name'];
                 else
-                    htiHtml+="<div class=\"item-header\">收款自</div>"+trade['collection_user_name'];
+                    htiHtml+="<div class=\"item-header\">转账给</div>"+trade['collection_user_name'];
             }else {
                 if (trade['trade_type'] == 1)
                     htiHtml += "<div class=\"item-header\">提现到</div>";
@@ -225,6 +226,9 @@ var homeView = app.views.create('#view-home', {
                     text: 'OK',
                   }]
               }).open();
+                setTimeout(function () {
+                    resetTradeInfo();
+                }, 3000);
               page.router.navigate({url: "/"});
             } else if (res == '-2') {
               app.dialog.create({
@@ -298,6 +302,9 @@ var homeView = app.views.create('#view-home', {
                   break;
                 default:
                   alert_OK("充值成功", "充值成功");
+                    setTimeout(function () {
+                        resetTradeInfo();
+                    }, 3000);
                   homeView.router.back();
                   break;
               }
@@ -369,6 +376,9 @@ var homeView = app.views.create('#view-home', {
                     break;
                   default:
                     alert_OK("提现成功", "提现成功");
+                      setTimeout(function () {
+                          resetTradeInfo();
+                      }, 3000);
                     homeView.router.back();
                     break;
                 }
