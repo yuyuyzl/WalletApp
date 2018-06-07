@@ -12,32 +12,79 @@
             </div>
         </div>
         <div class="page-content">
-            <div class="block text-align-center">
-                <p>
+            <div class="block block-strong text-align-center no-margin-bottom">
+                <p class="no-margin-bottom">
                 {{#js_if "this.trade['trade_type']==2"}}
                 {{trade['targetUserInfo']['userName']}}
 
                 {{else}}
-                {{#js_if "this.trade['trade_type']==1"}}
-                提现
-                {{else}}
-                充值
-                {{/js_if}}
-                &nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;
-
-                {{#js_if "this.trade['type']=='true'"}}
-                支付宝
-                {{else}}
-                微信
-                {{/js_if}}
+                    {{#js_if "this.trade['trade_type']==1"}}
+                    提现
+                    {{else}}
+                    充值
+                    {{/js_if}}
                 {{/js_if}}
                 </p>
-                <h3>
-                    {{#if trade['isAdd']}}+{{else}}-{{/if}}
-                </h3>
+                <p style="font-size: 32px" class="no-margin">
+                    {{#if trade['isAdd']}}+{{else}}-{{/if}}{{trade['sum']}}
+                </p>
+                <p class="text-color-gray no-margin-top">
+                    交易成功
+                </p>
+
             </div>
-            <div class="list no-hairlines-md block block-strong">
-                <ul></ul>
+            <div class="list no-hairline-top-md no-margin-top">
+                <ul>
+                    {{#js_if "this.trade['trade_type']!=2"}}
+                    <li>
+                        <div class="item item-content">
+                            <div class="item-inner text-color-gray">
+                                交易目标
+                                <div class="item-after text-color-black">
+                                    {{#js_if "this.trade['type']=='true'"}}
+                                    支付宝
+                                    {{else}}
+                                    微信
+                                    {{/js_if}}
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    {{else}}
+                    <li>
+                        <div class="item item-content">
+                            <div class="item-inner text-color-gray">
+                                交易类型
+                                <div class="item-after text-color-black">
+                                    {{#js_if "this.trade['type']=='true'"}}
+                                    转账
+                                    {{else}}
+                                    消费
+                                    {{/js_if}}
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    {{/js_if}}
+                    <li>
+                        <div class="item item-content">
+                            <div class="item-inner text-color-gray">
+                                创建时间
+                                <div class="item-after text-color-black">{{trade['date_time']}}</div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item item-content">
+                            <div class="item-inner text-color-gray">
+                                订单号
+                                <div class="item-after text-color-black">{{trade['trade_id']}}</div>
+                            </div>
+                        </div>
+                    </li>
+                    <!--
+                     -->
+                </ul>
             </div>
         </div>
     </div>

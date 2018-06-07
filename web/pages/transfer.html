@@ -1,4 +1,4 @@
-
+<template>
 <div class="page" data-name="transfer">
   <div class="navbar">
     <div class="navbar-inner sliding">
@@ -24,12 +24,56 @@
             </div>
           </div>
         </li>
-        <li class="last-1"><a href="#" >yuyuyzl1</a></li>
-        <li class="last-2"><a href="#" >yuyuyzl2</a></li>
-        <li class="last-3"><a href="#" >yuyuyzl3</a></li>
+        {{#each recentUser}}
+        <li><a href="/transfertoaccount2/?{{this['userID']}}" >{{this['userName']}}</a></li>
+        {{/each}}
       </ul>
     </div>
 
 
   </div>
 </div>
+</template>
+<script>
+  return {
+    data: function () {
+        var recentUser=[];
+        for(var i=0;i<tradeInfo.length;i++) {
+            var currentTrade = tradeInfo[i];
+
+
+            if (currentTrade['trade_type'] == 2) {
+                var targetUID = 0;
+                if (parseInt(currentTrade['collection_user_id']) == currentUser.id) {
+                    targetUID = currentTrade['payment_user_id'];
+                    currentTrade['isAdd'] = true;
+                } else {
+                    targetUID = currentTrade['collection_user_id'];
+                    currentTrade['isAdd'] = false;
+                }
+                var userInfo = JSON.parse($.ajax({
+                    type: 'POST',
+                    url: '/Account',
+                    data: {
+                        Action: "3",
+                        uid: targetUID
+                    },
+                    async: false
+                }).responseText);
+                var isRepeated = false;
+                for (var j = 0; j < recentUser.length; j++) {
+                    if (userInfo['userID'] == recentUser[j]['userID']) {
+                        isRepeated = true;
+                    }
+                }
+                if (!isRepeated) recentUser=recentUser.concat(userInfo);
+            }
+        }
+        console.log(recentUser);
+
+        return {
+            recentUser: recentUser,
+        };
+    }
+    };
+</script>

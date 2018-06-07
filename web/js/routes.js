@@ -25,7 +25,7 @@ routes = [
   },
   {
     path: '/transfer/',
-    url: './pages/transfer.html',
+    componentUrl: './pages/transfer.html',
   },
   {
     path: '/transfertoaccount/',
