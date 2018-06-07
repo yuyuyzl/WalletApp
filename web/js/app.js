@@ -7,7 +7,7 @@ var tradeInfo;
 resetTradeInfo=function(){
     tradeInfo=[];
     for (var tradetype=0;tradetype<=2;tradetype++){
-        var tradeInfoRes=JSON.parse($.ajax({url: "/Account?Action=6&tradetype="+tradetype, async: false}).responseText);
+        var tradeInfoRes=JSON.parse($.ajax({url: "Account?Action=6&tradetype="+tradetype, async: false}).responseText);
         //console.log(tradeInfoRes);
         tradeInfo=tradeInfo.concat(tradeInfoRes);
     }
@@ -84,7 +84,7 @@ var homeView = app.views.create('#view-home', {
     pageInit: function (page) {
       console.log("pageInit " + page.name);
       console.log(page);
-      currentUser.id = parseInt($.ajax({url: "/User", async: false}).responseText);
+      currentUser.id = parseInt($.ajax({url: "User", async: false}).responseText);
       console.log(currentUser.id);
 
       if (currentUser.id <= 0) {
@@ -131,7 +131,7 @@ var homeView = app.views.create('#view-home', {
           console.log(username);
           var id = $.ajax({
             type: 'POST',
-            url: '/Account',
+            url: 'Account',
             data: {
               Action: "1",
               Username: username,
@@ -168,7 +168,7 @@ var homeView = app.views.create('#view-home', {
 
         var userInfo = JSON.parse($.ajax({
           type: 'POST',
-          url: '/Account',
+          url: 'Account',
           data: {
             Action: "3",
             uid: page.route.url.split('?')[1],
@@ -185,7 +185,7 @@ var homeView = app.views.create('#view-home', {
             console.log("transfermoney" + username + " " + password);
             $.ajax({
               type: 'POST',
-              url: '/User',
+              url: 'User',
               data: {
                 Action: "6",
                 Username: username,
@@ -208,7 +208,7 @@ var homeView = app.views.create('#view-home', {
           if (parseFloat(amount) > 0) {
             var res = $.ajax({
               type: 'POST',
-              url: '/Account',
+              url: 'Account',
               data: {
                 Action: "2",
                 uid: page.route.url.split('?')[1],
@@ -270,7 +270,7 @@ var homeView = app.views.create('#view-home', {
           let way = $$("input[type='radio']:checked").val();
           $.ajax({
             type: 'POST',
-            url: '/Account',
+            url: 'Account',
             data: {
               Action: "4",
               Money: money,
@@ -316,7 +316,7 @@ var homeView = app.views.create('#view-home', {
             console.log("drawmoney" + username + " " + password);
             $.ajax({
               type: 'POST',
-              url: '/User',
+              url: 'User',
               data: {
                 Action: "6",
                 Username: username,
@@ -338,7 +338,7 @@ var homeView = app.views.create('#view-home', {
             let way = $$("input[type='radio']:checked").val();
             $.ajax({
               type: 'POST',
-              url: '/Account',
+              url: 'Account',
               data: {
                 Action: "5",
                 Money: money,
@@ -389,7 +389,7 @@ function updateUserInfo() {
   console.log("reload user-information");
   $.ajax({
     type: 'POST',
-    url: '/Account',
+    url: 'Account',
     data: {
       Action: "3",
       uid: currentUser.id,
@@ -418,7 +418,7 @@ var settingsView = app.views.create('#view-settings', {
       console.log("account.pageInit : " + page.name);
       if (page.name === 'settings') {
         $$('.logout-button').on('click', function () {
-          $.ajax({url: "/User?Action=2", async: false});
+          $.ajax({url: "User?Action=2", async: false});
           location.reload();
         });
       }
@@ -446,7 +446,7 @@ var settingsView = app.views.create('#view-settings', {
           console.log('submit new password : ' + initialPassword + ' -> ' + password);
           $.ajax({
             type: 'POST',
-            url: '/User',
+            url: 'User',
             data: {
               Action: "4",
               InitialPassword: initialPassword,
@@ -551,7 +551,7 @@ $$('#my-login-screen .login-button').on('click', function () {
 
   $.ajax({
     type: 'POST',
-    url: '/User',
+    url: 'User',
     data: {
       Action: "1",
       Username: username,
@@ -609,7 +609,7 @@ $$("#register-screen .login-button").on('click', function () {
   }
   $.ajax({
     type: 'POST',
-    url: '/User',
+    url: 'User',
     data: {
       Action: "3",
       Username: username,
@@ -715,7 +715,7 @@ $$("#foundPasswd-screen .login-button").on('click', function () {
   console.log("check-user:" + username + "; " + userIdentity + "; " + password);
   $.ajax({
     type: 'POST',
-    url: '/User',
+    url: 'User',
     data: {
       Action: "5",
       userIdentity: userIdentity,
@@ -766,7 +766,7 @@ $$("#foundPasswd-screen2 .login-button").on('click', function () {
   console.log("change-password:" + username + "; " + userIdentity + "; " + password);
   $.ajax({
     type: 'POST',
-    url: '/User',
+    url: 'User',
     data: {
       Action: "5",
       userIdentity: userIdentity,
