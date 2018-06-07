@@ -111,15 +111,7 @@
                     targetUID=currentTrade['collection_user_id'];
                     currentTrade['isAdd']=false;
                 }
-                var userInfo = JSON.parse($.ajax({
-                    type: 'POST',
-                    url: 'Account',
-                    data: {
-                        Action: "3",
-                        uid: targetUID
-                    },
-                    async: false
-                }).responseText);
+                var userInfo = getUserInfo(targetUID);
                 currentTrade['targetUserInfo']=userInfo;
             }else {if(currentTrade['trade_type']==1)currentTrade['isAdd']=false;else currentTrade['isAdd']=true;}
 

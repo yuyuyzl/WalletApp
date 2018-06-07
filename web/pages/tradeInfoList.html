@@ -22,10 +22,10 @@
                                     {{#js_if "this['trade_type']==2"}}
                                         {{#js_if "parseInt(this['collection_user_id'])==currentUser.id"}}
                                         <div class="item-header">收款自</div>
-                                        {{this['payment_user_name']}}
+                                        {{getUserInfo(this['payment_user_id'])['userName']}}
                                         {{else}}
                                         <div class="item-header">转账给</div>
-                                        {{this['collection_user_name']}}
+                                        {{getUserInfo(this['collection_user_id'])['userName']}}
                                         {{/js_if}}
 
                                     {{else}}

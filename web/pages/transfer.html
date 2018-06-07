@@ -51,15 +51,7 @@
                     targetUID = currentTrade['collection_user_id'];
                     currentTrade['isAdd'] = false;
                 }
-                var userInfo = JSON.parse($.ajax({
-                    type: 'POST',
-                    url: 'Account',
-                    data: {
-                        Action: "3",
-                        uid: targetUID
-                    },
-                    async: false
-                }).responseText);
+                var userInfo = getUserInfo(targetUID);
                 var isRepeated = false;
                 for (var j = 0; j < recentUser.length; j++) {
                     if (userInfo['userID'] == recentUser[j]['userID']) {

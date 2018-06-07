@@ -412,8 +412,9 @@
 <script src="javascript/jquery.min.js"></script>
 <!-- App routes -->
 <script src="js/routes.js"></script>
-<script src="js/util.js"></script>
+
 <!-- Your custom app scripts -->
+<script src="js/util.js"></script>
 <script src="js/app.js"></script>
 
 </body>

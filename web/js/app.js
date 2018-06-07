@@ -104,9 +104,9 @@ var homeView = app.views.create('#view-home', {
                 "            <div class=\"item-title\">\n" ;
             if(trade['trade_type']==2){
                 if(parseInt(trade['collection_user_id'])==currentUser.id)
-                    htiHtml+="<div class=\"item-header\">收款自</div>"+trade['payment_user_name'];
+                    htiHtml+="<div class=\"item-header\">收款自</div>"+getUserInfo(trade['payment_user_id'])['userName'];
                 else
-                    htiHtml+="<div class=\"item-header\">转账给</div>"+trade['collection_user_name'];
+                    htiHtml+="<div class=\"item-header\">转账给</div>"+getUserInfo(trade['collection_user_id'])['userName'];
             }else {
                 if (trade['trade_type'] == 1)
                     htiHtml += "<div class=\"item-header\">提现到</div>";
@@ -167,15 +167,7 @@ var homeView = app.views.create('#view-home', {
       if (page.name == "transfertoaccount2") {
         console.log(page.route.url.split('?')[1]);
 
-        var userInfo = JSON.parse($.ajax({
-          type: 'POST',
-          url: 'Account',
-          data: {
-            Action: "3",
-            uid: page.route.url.split('?')[1],
-          },
-          async: false
-        }).responseText);
+        var userInfo = getUserInfo(page.route.url.split('?')[1]);
         console.log(userInfo);
         $$("#p-userName")[0].innerHTML = userInfo['userName'] + ' (' + shadeStr(userInfo['userRealName']) + ')';
         $$("#p-mobile")[0].innerHTML = shadeStr(userInfo['userTel']);

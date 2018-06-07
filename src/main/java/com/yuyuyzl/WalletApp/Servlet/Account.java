@@ -172,14 +172,6 @@ public class Account extends HttpServlet {
                             Map<String, String> map2 = gson.fromJson(jsonString, type);
                             map2.put("trade_id", entry.getKey());
                             map2.put("trade_type", String.valueOf(tradeType));
-                            switch (tradeType){
-                                case 2:
-                                    //collection_user_id payment_user_id
-                                    map2.put("collection_user_name",DubboHandler.INSTANCE.accountService.userInformation(Integer.valueOf(map2.get("collection_user_id"))).get("userName").toString());
-                                    map2.put("payment_user_name",DubboHandler.INSTANCE.accountService.userInformation(Integer.valueOf(map2.get("payment_user_id"))).get("userName").toString());
-                                    break;
-
-                            }
                             res.add(map2);
                         }else
                             System.out.println("EMPTY TRADE FOUND");
