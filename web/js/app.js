@@ -389,28 +389,14 @@ function updateUserInfo() {
   //todo: 检测输出是否合法
   //这里由于钱数是变的,只能重新获取数据(因为还有转入..) 除非给我一个钱数接口,否则无法改变
   console.log("reload user-information");
-  $.ajax({
-    type: 'POST',
-    url: 'Account',
-    data: {
-      Action: "3",
-      uid: currentUser.id,
-    },
-    success: function (data, textStatus, jqXHR) {
-      // console.log('查询账户 : ' + data);
-      if (data === '') {
-        console.log('not found');
-        return;
-      }
-      //这里有bug, 数字过大精度会损失, 会变成实数(?) 但现在无法复现bug
-      let info = JSON.parse(data);
-      console.log(info);
-      $$('.userRealName').text(info.userRealName);
-      $$('.userName').text(info.userName);
-      $$('.agency').text(info.agency);
-      $$('.amountMoney').text(info.availableBalance.toFixed(2));
-    }
-  });
+  let info = getUserInfoUncached(currentUser.id);
+  // console.log('查询账户 : ' + info);
+  console.log(info);
+  //这里有bug, 数字过大精度会损失, 会变成实数(?) 但现在无法复现bug
+  $$('.userRealName').text(info.userRealName);
+  $$('.userName').text(info.userName);
+  $$('.agency').text(info.agency);
+  $$('.amountMoney').text(info.availableBalance.toFixed(2));
 }
 
 var settingsView = app.views.create('#view-settings', {

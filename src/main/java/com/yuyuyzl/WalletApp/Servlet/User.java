@@ -36,7 +36,7 @@ public class User extends HttpServlet {
                 {
                     String username = request.getParameter("Username");
                     String password = request.getParameter("Password");
-                    System.out.print(username + " - " + password + " @ " + request.getSession().getId());
+                    System.out.println(username + " - " + password + " @ " + request.getSession().getId());
                     int uid = -1;
                     try {
                         uid = DubboHandler.INSTANCE.accountService.userLogin(username, Encrypt.SHA256(password));
@@ -62,7 +62,7 @@ public class User extends HttpServlet {
                     String ID = 'Y'+request.getParameter("ID");
                     String email = request.getParameter("email");
                     String realname = request.getParameter("realname");
-                    System.out.print(username + " - " + password + " @ " + request.getSession().getId());
+                    System.out.println(username + " - " + password + " @ " + request.getSession().getId());
                     int uid = -1;
                     try {
                         uid = DubboHandler.INSTANCE.accountService.userRegister(
