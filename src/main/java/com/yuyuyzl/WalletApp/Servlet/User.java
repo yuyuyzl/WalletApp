@@ -59,7 +59,7 @@ public class User extends HttpServlet {
                     String password = request.getParameter("Password");
                     int agencyID = Integer.valueOf(request.getParameter("agencyID"));
                     String mobile = request.getParameter("mobile");
-                    String ID = request.getParameter("ID");
+                    String ID = 'Y'+request.getParameter("ID");
                     String email = request.getParameter("email");
                     String realname = request.getParameter("realname");
                     System.out.print(username + " - " + password + " @ " + request.getSession().getId());
@@ -124,7 +124,7 @@ public class User extends HttpServlet {
                 case 5: //forget-password
                 {
                     String username = request.getParameter("Username");
-                    String userIdentity = request.getParameter("userIdentity");
+                    String userIdentity = 'Y'+request.getParameter("userIdentity");
                     String password = request.getParameter("Password");
                     try {
                         boolean okay = DubboHandler.INSTANCE.accountService.foundPasswd(

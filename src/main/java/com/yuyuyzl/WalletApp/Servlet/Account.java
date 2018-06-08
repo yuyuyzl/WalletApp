@@ -52,14 +52,19 @@ public class Account extends HttpServlet {
                 {
                     int uid = Integer.valueOf(request.getParameter("uid"));
                     String amount = request.getParameter("amount");
-
+                    String transferIdentity=request.getParameter("userIdentity");
                     try {
                         double double_amount = Double.valueOf(amount);
-                        if (((BigDecimal) DubboHandler.INSTANCE.accountService.userInformation(LoginHandler.getUID(request.getSession().getId())).get("availableBalance")).doubleValue() < double_amount) {
+                        Map userInfo=DubboHandler.INSTANCE.accountService.userInformation(LoginHandler.getUID(request.getSession().getId()));
+                        if (((BigDecimal) userInfo.get("availableBalance")).doubleValue() < double_amount) {
                             out.print(-2);
                             return;
                         }
-                        if (DubboHandler.INSTANCE.accountService.transferConsume(LoginHandler.getUID(request.getSession().getId()), uid, Double.valueOf(amount), false)) {
+                        String userIdentity=userInfo.get("userIdentity").toString();
+                        System.out.println("transfer from "+userIdentity+" to "+transferIdentity);
+                        boolean tradeType=false;
+                        if (userIdentity.charAt(0)=='Y'&&transferIdentity.charAt(0)=='S') tradeType=true;
+                        if (DubboHandler.INSTANCE.accountService.transferConsume(LoginHandler.getUID(request.getSession().getId()), uid, Double.valueOf(amount), tradeType)) {
                             out.print(1);
                         } else out.print(-1);
                     } catch (NumberFormatException e) {

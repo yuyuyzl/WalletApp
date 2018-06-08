@@ -4,29 +4,29 @@ var currentUser = {
   id: -1,
 };
 var tradeInfo;
-resetTradeInfo=function(){
-    console.log("reset trade info start")
-    tradeInfo=[];
-    for (var tradetype=0;tradetype<=2;tradetype++){
-        var tradeInfoRes=JSON.parse($.ajax({url: "Account?Action=6&tradetype="+tradetype, async: false}).responseText);
-        //console.log(tradeInfoRes);
-        tradeInfo=tradeInfo.concat(tradeInfoRes);
-    }
-    tradeInfo=tradeInfo.sort(function (a,b) {
-        return -a['date_time'].localeCompare(b['date_time']);
-    });
-    console.log(tradeInfo);
-    if(homeView!=null)homeView.router.refreshPage();
+resetTradeInfo = function () {
+  console.log("reset trade info start")
+  tradeInfo = [];
+  for (var tradetype = 0; tradetype <= 2; tradetype++) {
+    var tradeInfoRes = JSON.parse($.ajax({url: "Account?Action=6&tradetype=" + tradetype, async: false}).responseText);
+    //console.log(tradeInfoRes);
+    tradeInfo = tradeInfo.concat(tradeInfoRes);
+  }
+  tradeInfo = tradeInfo.sort(function (a, b) {
+    return -a['date_time'].localeCompare(b['date_time']);
+  });
+  console.log(tradeInfo);
+  if (homeView != null) homeView.router.refreshPage();
 };
 
-getTradeInfo=function () {
-    // Must return an object
-    return {
-        tradeInfo: function(){
-            console.log("GTI CALLED");
-            return tradeInfo;
-        }
+getTradeInfo = function () {
+  // Must return an object
+  return {
+    tradeInfo: function () {
+      console.log("GTI CALLED");
+      return tradeInfo;
     }
+  }
 }
 // Framework7 App main instance
 var app = new Framework7({
@@ -91,35 +91,35 @@ var homeView = app.views.create('#view-home', {
       if (currentUser.id <= 0) {
         app.loginScreen.open('#my-login-screen', true);
       }
-      if(currentUser.id>=0 && page.name=="home"){
+      if (currentUser.id >= 0 && page.name == "home") {
         resetTradeInfo();
-        var htiHtml="";
-        for(var i=0;i<=2;i++){
-            if(tradeInfo.length<=i)break;
-            var trade=tradeInfo[i];
-            htiHtml+=
-                "<li>\n" +
-                "    <a href=\"/tradeInfo/"+trade['trade_id']+"/\" class=\"item-link item-content\">\n" +
-                "        <div class=\"item-inner\">\n" +
-                "            <div class=\"item-title\">\n" ;
-            if(trade['trade_type']==2){
-                if(parseInt(trade['collection_user_id'])==currentUser.id)
-                    htiHtml+="<div class=\"item-header\">收款自</div>"+getUserInfo(trade['payment_user_id'])['userName'];
-                else
-                    htiHtml+="<div class=\"item-header\">转账给</div>"+getUserInfo(trade['collection_user_id'])['userName'];
-            }else {
-                if (trade['trade_type'] == 1)
-                    htiHtml += "<div class=\"item-header\">提现到</div>";
-                else htiHtml += "<div class=\"item-header\">充值自</div>";
-                htiHtml += (trade['type'] == 'true') ? '支付宝' : '微信';
-            }
-            htiHtml+=
-                "                <div class=\"item-footer\">"+trade['date_time']+"</div>\n" +
-                "            </div>\n" +
-                "            <div class=\"item-after\">¥<span>"+trade['sum']+"</span></div>\n" +
-                "        </div>\n" +
-                "    </a>\n" +
-                "</li>";
+        var htiHtml = "";
+        for (var i = 0; i <= 2; i++) {
+          if (tradeInfo.length <= i) break;
+          var trade = tradeInfo[i];
+          htiHtml +=
+              "<li>\n" +
+              "    <a href=\"/tradeInfo/" + trade['trade_id'] + "/\" class=\"item-link item-content\">\n" +
+              "        <div class=\"item-inner\">\n" +
+              "            <div class=\"item-title\">\n";
+          if (trade['trade_type'] == 2) {
+            if (parseInt(trade['collection_user_id']) == currentUser.id)
+              htiHtml += "<div class=\"item-header\">收款自</div>" + getUserInfo(trade['payment_user_id'])['userName'];
+            else
+              htiHtml += "<div class=\"item-header\">转账给</div>" + getUserInfo(trade['collection_user_id'])['userName'];
+          } else {
+            if (trade['trade_type'] == 1)
+              htiHtml += "<div class=\"item-header\">提现到</div>";
+            else htiHtml += "<div class=\"item-header\">充值自</div>";
+            htiHtml += (trade['type'] == 'true') ? '支付宝' : '微信';
+          }
+          htiHtml +=
+              "                <div class=\"item-footer\">" + trade['date_time'] + "</div>\n" +
+              "            </div>\n" +
+              "            <div class=\"item-after\">¥<span>" + trade['sum'] + "</span></div>\n" +
+              "        </div>\n" +
+              "    </a>\n" +
+              "</li>";
 
         }
         $$('#homeTradeInfo').html(htiHtml);
@@ -187,7 +187,65 @@ var homeView = app.views.create('#view-home', {
               success: function (data, textStatus, jqXHR) {
                 console.log("transfer-login" + " " + data);
                 if (parseInt(data) !== -1) {
-                  actualtransfer();
+                  var amount = $$('#transferAmount').val();
+                  // console.log('userIdentity='+userInfo['userIdentity']);
+                  if (parseFloat(amount) > 0) {
+                    var res = $.ajax({
+                      type: 'POST',
+                      url: 'Account',
+                      data: {
+                        Action: "2",
+                        uid: page.route.url.split('?')[1],
+                        amount: amount,
+                        userIdentity: userInfo['userIdentity'],
+                      },
+                      async: false
+                    }).responseText;
+                    if (res == '1') {
+                      app.dialog.create({
+                        title: '提示',
+                        text: '转账成功',
+                        buttons: [
+                          {
+                            text: 'OK',
+                          }]
+                      }).open();
+                      setTimeout(function () {
+                        resetTradeInfo();
+                      }, 3000);
+                      page.router.navigate({url: "/"});
+                    } else if (res == '-2') {
+                      app.dialog.create({
+                        title: '错误',
+                        text: '余额不足',
+                        buttons: [
+                          {
+                            text: 'OK',
+                          }]
+                      }).open();
+                    } else if (res === '-1') {
+                      alert_OK("错误", "输入金额有误");
+                    } else {
+                      app.dialog.create({
+                        title: '错误',
+                        text: '转账失败',
+                        buttons: [
+                          {
+                            text: 'OK',
+                          }]
+                      }).open();
+                    }
+                  } else {
+                    app.dialog.create({
+                      title: '错误',
+                      text: '输入金额有误',
+                      buttons: [
+                        {
+                          text: 'OK',
+                        }]
+                    }).open();
+                    return;
+                  }
                 } else {
                   alert_OK("提现失败", "密码错误");
                 }
@@ -196,65 +254,6 @@ var homeView = app.views.create('#view-home', {
           });
         });
 
-        function actualtransfer() {
-          var amount = $$('#transferAmount').val();
-          if (parseFloat(amount) > 0) {
-            var res = $.ajax({
-              type: 'POST',
-              url: 'Account',
-              data: {
-                Action: "2",
-                uid: page.route.url.split('?')[1],
-                amount: amount,
-              },
-              async: false
-            }).responseText;
-            if (res == '1') {
-              app.dialog.create({
-                title: '提示',
-                text: '转账成功',
-                buttons: [
-                  {
-                    text: 'OK',
-                  }]
-              }).open();
-                setTimeout(function () {
-                    resetTradeInfo();
-                }, 3000);
-              page.router.navigate({url: "/"});
-            } else if (res == '-2') {
-              app.dialog.create({
-                title: '错误',
-                text: '余额不足',
-                buttons: [
-                  {
-                    text: 'OK',
-                  }]
-              }).open();
-            } else if (res === '-1') {
-              alert_OK("错误", "输入金额有误");
-            } else {
-              app.dialog.create({
-                title: '错误',
-                text: '转账失败',
-                buttons: [
-                  {
-                    text: 'OK',
-                  }]
-              }).open();
-            }
-          } else {
-            app.dialog.create({
-              title: '错误',
-              text: '输入金额有误',
-              buttons: [
-                {
-                  text: 'OK',
-                }]
-            }).open();
-            return;
-          }
-        };
       }
 
       if (page.name === "recharge") {
@@ -294,9 +293,9 @@ var homeView = app.views.create('#view-home', {
                   break;
                 default:
                   alert_OK("充值成功", "充值成功");
-                    setTimeout(function () {
-                        resetTradeInfo();
-                    }, 3000);
+                  setTimeout(function () {
+                    resetTradeInfo();
+                  }, 3000);
                   homeView.router.back();
                   break;
               }
@@ -368,9 +367,9 @@ var homeView = app.views.create('#view-home', {
                     break;
                   default:
                     alert_OK("提现成功", "提现成功");
-                      setTimeout(function () {
-                          resetTradeInfo();
-                      }, 3000);
+                    setTimeout(function () {
+                      resetTradeInfo();
+                    }, 3000);
                     homeView.router.back();
                     break;
                 }
@@ -388,6 +387,7 @@ var homeView = app.views.create('#view-home', {
 
 function updateUserInfo() {
   //todo: 检测输出是否合法
+  //这里由于钱数是变的,只能重新获取数据(因为还有转入..) 除非给我一个钱数接口,否则无法改变
   console.log("reload user-information");
   $.ajax({
     type: 'POST',
