@@ -594,6 +594,9 @@ $$("#register-screen .login-button").on('click', function () {
         }]
     }).open();
     return;
+  } else if (username === '' || password === '' || agencyID === '' || mobile === '' ||
+      email === '' || realname === '' || repeatPassword === '' || ID === '') {
+    alert_OK("注册失败", "有项目没有输入!");
   }
   $.ajax({
     type: 'POST',
