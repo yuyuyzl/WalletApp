@@ -584,6 +584,7 @@ $$("#register-screen .login-button").on('click', function () {
   var realname = $$('#register-screen [name="realname"]').val();
   var repeatPassword = $$('#register-screen [name="repeatPassword"]').val();
   var ID = $$('#register-screen [name="ID"]').val();
+  // console.log(username + password + agencyID + mobile + email + realname + repeatPassword + ID);
   if (password !== repeatPassword) {
     app.dialog.create({
       title: '注册失败',
@@ -789,4 +790,3 @@ $$("#foundPasswd-screen2 .login-button").on('click', function () {
     }
   });
 });
-

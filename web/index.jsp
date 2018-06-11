@@ -119,8 +119,8 @@
                   </div>
                 </a>
               </li>
-                <div id="homeTradeInfo">
-                </div>
+              <div id="homeTradeInfo">
+              </div>
             </ul>
           </div>
         </div>
@@ -209,68 +209,83 @@
           <div class="login-screen-title">用户注册</div>
           <div class="list">
             <ul>
-              <li class="item-content item-input input-login">
+              <li class="item-content item-input item-input-with-info input-login">
                 <div class="item-inner">
                   <div class="item-title item-label">机构编号</div>
                   <div class="item-input-wrap">
-                    <input type="text" name="agencyID" placeholder="">
+                    <input type="text" name="agencyID" placeholder="Agency ID" required validate>
+                    <span class="input-clear-button"></span>
+                    <div class="item-input-info">请输入机构号</div>
                   </div>
                 </div>
               </li>
-              <li class="item-content item-input input-login">
+              <li class="item-content item-input item-input-with-info input-login">
                 <div class="item-inner">
                   <div class="item-title item-label">用户名</div>
                   <div class="item-input-wrap">
-                    <input type="text" name="username" placeholder="">
+                    <input type="text" name="username" placeholder="Your name" required validate>
+                    <span class="input-clear-button"></span>
+                    <div class="item-input-info">请随意起名</div>
                   </div>
                 </div>
               </li>
-              <li class="item-content item-input input-login">
+              <li class="item-content item-input item-input-with-info input-login">
                 <div class="item-inner">
                   <div class="item-title item-label">密码</div>
                   <div class="item-input-wrap">
-                    <input type="password" name="password" placeholder="">
+                    <input type="password" name="password" placeholder="Your password" required validate>
+                    <span class="input-clear-button"></span>
+                    <div class="item-input-info">请起个好记的密码</div>
                   </div>
                 </div>
               </li>
-              <li class="item-content item-input input-login">
+              <li class="item-content item-input item-input-with-info input-login">
                 <div class="item-inner">
                   <div class="item-title item-label">重复密码</div>
                   <div class="item-input-wrap">
-                    <input type="password" name="repeatPassword" placeholder="">
+                    <input type="password" name="repeatPassword" placeholder="Repeat Password" required validate>
+                    <span class="input-clear-button"></span>
+                    <div class="item-input-info">请重复刚刚输入的的密码</div>
                   </div>
                 </div>
               </li>
-              <li class="item-content item-input input-login">
+              <li class="item-content item-input item-input-with-info input-login">
                 <div class="item-inner">
                   <div class="item-title item-label">手机号码</div>
                   <div class="item-input-wrap">
-                    <input type="text" name="mobile" placeholder="">
+                    <input type="text" name="mobile" placeholder="Phone Number" required validate>
+                    <span class="input-clear-button"></span>
+                    <div class="item-input-info">这并不会用于找回密码</div>
                   </div>
                 </div>
               </li>
-
-              <li class="item-content item-input input-login">
+              <li class="item-content item-input item-input-with-info input-login">
                 <div class="item-inner">
                   <div class="item-title item-label">电子邮件</div>
                   <div class="item-input-wrap">
-                    <input type="text" name="email" placeholder="">
+                    <input type="text" name="email" placeholder="Email Address" required validate>
+                    <span class="input-clear-button"></span>
+                    <div class="item-input-info">这并不会用于找回密码</div>
                   </div>
                 </div>
               </li>
-              <li class="item-content item-input input-login">
+              <li class="item-content item-input item-input-with-info input-login">
                 <div class="item-inner">
                   <div class="item-title item-label">真实姓名</div>
                   <div class="item-input-wrap">
-                    <input type="text" name="realname" placeholder="">
+                    <input type="text" name="realname" placeholder="Real Name" required validate>
+                    <span class="input-clear-button"></span>
+                    <div class="item-input-info">请输入您的真实姓名</div>
                   </div>
                 </div>
               </li>
-              <li class="item-content item-input input-login">
+              <li class="item-content item-input item-input-with-info input-login">
                 <div class="item-inner">
                   <div class="item-title item-label">证件号码</div>
                   <div class="item-input-wrap">
-                    <input type="text" name="ID" placeholder="">
+                    <input type="text" name="ID" placeholder="Real Name" required validate>
+                    <span class="input-clear-button"></span>
+                    <div class="item-input-info">请检查您的证件号码</div>
                   </div>
                 </div>
               </li>
