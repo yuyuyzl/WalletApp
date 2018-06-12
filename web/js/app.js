@@ -584,6 +584,7 @@ $$("#register-screen .login-button").on('click', function () {
   var realname = $$('#register-screen [name="realname"]').val();
   var repeatPassword = $$('#register-screen [name="repeatPassword"]').val();
   var ID = $$('#register-screen [name="ID"]').val();
+  var registerType = $$('#register-screen [name="registerType"]').val();
   // console.log(username + password + agencyID + mobile + email + realname + repeatPassword + ID);
   if (password !== repeatPassword) {
     app.dialog.create({
@@ -595,9 +596,19 @@ $$("#register-screen .login-button").on('click', function () {
         }]
     }).open();
     return;
+  } else if (!(/^[^\u4e00-\u9fa5]*$/.test(username))) {
+    alert_OK("注册失败", "用户名中不能包含汉字");
+    return;
+  } else if (!(/^[0-9]*$/.test(mobile))) {
+    alert_OK("注册失败", "手机号不合条件");
+    return;
+  } else if (!(/^[0-9]*$/.test(agencyID))) {
+    alert_OK("注册失败", "证件号码不合条件");
+    return;
   } else if (username === '' || password === '' || agencyID === '' || mobile === '' ||
       email === '' || realname === '' || repeatPassword === '' || ID === '') {
     alert_OK("注册失败", "有项目没有输入!");
+    return;
   }
   $.ajax({
     type: 'POST',
@@ -610,7 +621,8 @@ $$("#register-screen .login-button").on('click', function () {
       mobile: mobile,
       email: email,
       realname: realname,
-      ID: ID
+      ID: ID,
+      registerType: registerType,
     },
     success: function (data, textStatus, jqXHR) {
       console.log(parseInt(data));
@@ -790,3 +802,4 @@ $$("#foundPasswd-screen2 .login-button").on('click', function () {
     }
   });
 });
+
