@@ -1,10 +1,7 @@
 package com.yuyuyzl.WalletApp.Servlet;
 
 import buaa.jj.accountservice.Encrypt;
-import buaa.jj.accountservice.exceptions.AgencyNotExistException;
-import buaa.jj.accountservice.exceptions.NameDuplicateException;
-import buaa.jj.accountservice.exceptions.UserAgencyDuplicateException;
-import buaa.jj.accountservice.exceptions.UserNotExistException;
+import buaa.jj.accountservice.exceptions.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -20,6 +17,7 @@ import java.io.PrintWriter;
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.logging.ConsoleHandler;
 
 public class Account extends HttpServlet {
     @Override
@@ -106,6 +104,7 @@ public class Account extends HttpServlet {
                         if (action == 4) {
                             boolean okay=DubboHandler.INSTANCE.accountService.reCharge(uid, money, rechargePlatform);
                             if (!okay){
+                                System.out.println("平台充值失败(return false)");
                                 out.print("-5");
                                 return;
                             }
@@ -116,6 +115,7 @@ public class Account extends HttpServlet {
                             }
                             boolean okay=DubboHandler.INSTANCE.accountService.drawMoney(uid, money, rechargePlatform);
                             if (!okay){
+                                System.out.println("平台取钱失败(return false)");
                                 out.print("-5");
                                 return;
                             }
@@ -126,7 +126,11 @@ public class Account extends HttpServlet {
                     } catch (UserNotExistException e) {
                         out.print("-2");
                         return;
+                    } catch (UserFrozenException e) {
+                        out.print("-7");
+                        return;
                     } catch (Exception e) {
+                        System.out.println(e.toString());
                         out.print("-5");
                         return;
                     }

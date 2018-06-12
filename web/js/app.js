@@ -291,6 +291,12 @@ var homeView = app.views.create('#view-home', {
                 case -5:
                   alert_OK("充值失败", "出现了未知错误");
                   break;
+                case -6://not available
+                  alert_OK("充值失败", "程序异常");
+                  break;
+                case -7:
+                  alert_OK("充值失败", "程序异常");
+                  break;
                 default:
                   alert_OK("充值成功", "充值成功");
                   setTimeout(function () {
@@ -364,6 +370,9 @@ var homeView = app.views.create('#view-home', {
                     break;
                   case -6:
                     alert_OK("提现失败", "余额不足");
+                    break;
+                  case -7:
+                    alert_OK("提现失败", "用户被冻结");
                     break;
                   default:
                     alert_OK("提现成功", "提现成功");
