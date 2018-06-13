@@ -1,3 +1,4 @@
+<template>
 <div class="page" data-name="transfertoaccount">
   <div class="navbar">
     <div class="navbar-inner sliding">
@@ -7,7 +8,11 @@
           <span class="ios-only">Back</span>
         </a>
       </div>
+      {{#if isToY}}
       <div class="title">转账到其他账户</div>
+      {{else}}
+      <div class="title">向商家付款</div>
+      {{/if}}
     </div>
   </div>
   <div class="page-content">
@@ -17,7 +22,12 @@
 
         <li class="item-content item-input">
           <div class="item-inner">
+
+            {{#if isToY}}
             <div class="item-title item-label">对方账户</div>
+            {{else}}
+            <div class="item-title item-label">商户账户</div>
+            {{/if}}
             <div class="item-input-wrap ">
               <input type="text" id="targetUsername" placeholder="账户名">
               <div class="item-input-info">转账为即时到账交易，无法退款</div>
@@ -40,3 +50,11 @@
 
   </div>
 </div>
+</template>
+<script>
+  return {
+      data:function () {
+          return {isToY : (this.$route.params.type=='1')}
+      }
+  }
+</script>

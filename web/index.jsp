@@ -86,7 +86,7 @@
                 <div class="home-braket"></div>
                 <div class="home-button">
                   <i class="f7-icons size-50">forward_fill</i>
-                  <p>转账</p>
+                  <p>转账 / 消费</p>
                 </div>
               </a>
 
