@@ -598,7 +598,7 @@ $$("#register-screen .login-button").on('click', function () {
   if (password !== repeatPassword) {
     app.dialog.create({
       title: '注册失败',
-      text: '确认密码不匹配',
+      text: '两次输入的密码不匹配',
       buttons: [
         {
           text: 'OK',
@@ -611,7 +611,7 @@ $$("#register-screen .login-button").on('click', function () {
   } else if (!(/^[0-9]*$/.test(mobile))) {
     alert_OK("注册失败", "手机号不合条件");
     return;
-  } else if (!(/^[0-9]*$/.test(agencyID))) {
+  } else if (!(/^[0-9a-zA-Z]*$/.test(agencyID))) {
     alert_OK("注册失败", "证件号码不合条件");
     return;
   } else if (username === '' || password === '' || agencyID === '' || mobile === '' ||

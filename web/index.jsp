@@ -214,7 +214,8 @@
                 <div class="item-inner">
                   <div class="item-title item-label">机构编号</div>
                   <div class="item-input-wrap">
-                    <input type="text" name="agencyID" required validate>
+                    <input type="text" name="agencyID" maxlength="10" required pattern="^[0-9]*$" validate
+                           data-error-message="请输入数字">
                     <span class="input-clear-button"></span>
                     <div class="item-input-info">请输入机构号</div>
                   </div>
@@ -247,7 +248,7 @@
                 <div class="item-inner">
                   <div class="item-title item-label">密码</div>
                   <div class="item-input-wrap">
-                    <input type="password" name="password" required validate>
+                    <input type="password" name="password" maxlength="50" required validate>
                     <span class="input-clear-button"></span>
                     <div class="item-input-info"></div>
                   </div>
@@ -257,7 +258,7 @@
                 <div class="item-inner">
                   <div class="item-title item-label">重复密码</div>
                   <div class="item-input-wrap">
-                    <input type="password" name="repeatPassword" required validate>
+                    <input type="password" name="repeatPassword" maxlength="50" required validate>
                     <span class="input-clear-button"></span>
                     <div class="item-input-info">请重复刚刚输入的的密码</div>
                   </div>
@@ -297,7 +298,8 @@
                 <div class="item-inner">
                   <div class="item-title item-label">证件号码</div>
                   <div class="item-input-wrap">
-                    <input type="text" name="ID" required pattern="^[0-9]*$" validate data-error-message="请输入数字">
+                    <input type="text" name="ID" required pattern="^[0-9a-zA-Z]*$" validate
+                           data-error-message="请输入数字或英文字母">
                     <span class="input-clear-button"></span>
                     <div class="item-input-info">请检查您的证件号码</div>
                   </div>
