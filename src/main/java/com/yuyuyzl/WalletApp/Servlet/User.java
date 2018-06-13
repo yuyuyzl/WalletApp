@@ -127,15 +127,18 @@ public class User extends HttpServlet {
                 case 5: //forget-password
                 {
                     String username = request.getParameter("Username");
-                    String userIdentity = 'Y' + request.getParameter("userIdentity");
+                    String userIdentity = request.getParameter("userIdentity");
                     String password = request.getParameter("Password");
+                    String registerType = request.getParameter("registerType");
+                    if (registerType.equals("user")) userIdentity = 'Y' + userIdentity;
+                    else userIdentity = 'S' + userIdentity;
                     try {
                         boolean okay = DubboHandler.INSTANCE.accountService.foundPasswd(
                                 username,
                                 userIdentity,
                                 Encrypt.SHA256(password)
                         );
-                        System.out.println("forget - " + username + " - " + userIdentity + " to " + password + okay);
+                        System.out.println("forget - " + username + " - " + userIdentity + " to " + password + okay + " register_type=" + registerType);
                         if (!okay) {
                             out.print(-3);
                             return;

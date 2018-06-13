@@ -717,6 +717,7 @@ $$("#foundPasswd-screen .back").on('click', function () {
 $$("#foundPasswd-screen .login-button").on('click', function () {
   let username = $$('#foundPasswd-screen [name="username"]').val();
   let userIdentity = $$('#foundPasswd-screen [name="ID"]').val();
+  var registerType = $$('#foundPasswd-screen [name="registerType"]').val();
   let password = '123456';
   if (username === '') {
     alert_OK("查询失败", "未输入用户名");
@@ -733,7 +734,8 @@ $$("#foundPasswd-screen .login-button").on('click', function () {
       Action: "5",
       userIdentity: userIdentity,
       Username: username,
-      Password: password
+      Password: password,
+      registerType:registerType,
     },
     success: function (data, textStatus, jqXHR) {
       console.log(data);
@@ -746,7 +748,7 @@ $$("#foundPasswd-screen .login-button").on('click', function () {
           alert_OK("查询失败", "用户被冻结");
           break;
         case -3:
-          alert_OK("查询失败", "证件号码不匹配");
+          alert_OK("查询失败", "证件号码不匹配或用户种类选择错误");
           break;
         default:
           alert_OK("查询成功", "已将密码更新为123456, 请更改密码:");

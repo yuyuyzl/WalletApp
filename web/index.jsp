@@ -352,6 +352,17 @@
                 </div>
               </li>
 
+              <li class="item-content item-input input-login  ">
+                <div class="item-inner">
+                  <div class="item-title item-label">用户种类</div>
+                  <div class="item-input-wrap">
+                    <select name="registerType">
+                      <option value="user" selected>用户</option>
+                      <option value="merchant">商户</option>
+                    </select>
+                  </div>
+                </div>
+              </li>
               <li class="item-content item-input input-login">
                 <div class="item-inner">
                   <div class="item-title item-label">证件号码</div>
