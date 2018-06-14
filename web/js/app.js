@@ -660,7 +660,7 @@ $$("#register-screen .login-button").on('click', function () {
         case -3:
           app.dialog.create({
             title: '注册失败',
-            text: 'UserAgencyDuplicateException',
+            text: '该证件号在该机构已被使用',
             buttons: [
               {
                 text: 'OK',
