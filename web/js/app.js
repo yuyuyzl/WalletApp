@@ -167,10 +167,16 @@ var homeView = app.views.create('#view-home', {
       if (page.name == "transfertoaccount2") {
         console.log(page.route.url.split('?')[1]);
 
+        var nowInfo = getUserInfo(currentUser.id);//这里改和前面改应该一样的时间
         var userInfo = getUserInfo(page.route.url.split('?')[1]);
         console.log(userInfo);
-        $$("#p-userName")[0].innerHTML = userInfo['userName'] + ' (' + shadeStr(userInfo['userRealName']) + ')';
-        $$("#p-mobile")[0].innerHTML = shadeStr(userInfo['userTel']);
+        if (userInfo['userIdentity'].charAt(0) === 'S' && nowInfo['userIdentity'].charAt(0) === 'Y') {
+          $$("#p-userName")[0].innerHTML = userInfo['userName'] + ' (' + userInfo['userRealName'] + ')';
+          $$("#p-mobile")[0].innerHTML = "";
+        } else {
+          $$("#p-userName")[0].innerHTML = userInfo['userName'] + ' (' + shadeStr(userInfo['userRealName']) + ')';
+          $$("#p-mobile")[0].innerHTML = shadeStr(userInfo['userTel']);
+        }
         $$("#transfer-2-confirm").off("click");
         $$("#transfer-2-confirm").on("click", function () {
           app.dialog.password('请输入密码', function (password) {
@@ -735,7 +741,7 @@ $$("#foundPasswd-screen .login-button").on('click', function () {
       userIdentity: userIdentity,
       Username: username,
       Password: password,
-      registerType:registerType,
+      registerType: registerType,
     },
     success: function (data, textStatus, jqXHR) {
       console.log(data);
