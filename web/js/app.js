@@ -91,38 +91,9 @@ var homeView = app.views.create('#view-home', {
       if (currentUser.id <= 0) {
         app.loginScreen.open('#my-login-screen', true);
       }
-      if (currentUser.id >= 0 && page.name == "home") {
-        resetTradeInfo();
-        var htiHtml = "";
-        for (var i = 0; i <= 2; i++) {
-          if (tradeInfo.length <= i) break;
-          var trade = tradeInfo[i];
-          htiHtml +=
-              "<li>\n" +
-              "    <a href=\"/tradeInfo/" + trade['trade_id'] + "/\" class=\"item-link item-content\">\n" +
-              "        <div class=\"item-inner\">\n" +
-              "            <div class=\"item-title\">\n";
-          if (trade['trade_type'] == 2) {
-            if (parseInt(trade['collection_user_id']) == currentUser.id)
-              htiHtml += "<div class=\"item-header\">收款自</div>" + getUserInfo(trade['payment_user_id'])['userName'];
-            else
-              htiHtml += "<div class=\"item-header\">转账给</div>" + getUserInfo(trade['collection_user_id'])['userName'];
-          } else {
-            if (trade['trade_type'] == 1)
-              htiHtml += "<div class=\"item-header\">提现到</div>";
-            else htiHtml += "<div class=\"item-header\">充值自</div>";
-            htiHtml += (trade['type'] == 'true') ? '支付宝' : '微信';
-          }
-          htiHtml +=
-              "                <div class=\"item-footer\">" + trade['date_time'] + "</div>\n" +
-              "            </div>\n" +
-              "            <div class=\"item-after\">¥<span>" + trade['sum'] + "</span></div>\n" +
-              "        </div>\n" +
-              "    </a>\n" +
-              "</li>";
-
-        }
-        $$('#homeTradeInfo').html(htiHtml);
+      if (currentUser.id >= 0 && page.name === "home") {
+        console.log('pageInit-Reset-InnerTradeInfo');
+        resetInnerTradeInfo();
       }
       if (page.name == "transfertoaccount") {
         //TODO 迷之特性研究
@@ -399,9 +370,53 @@ var homeView = app.views.create('#view-home', {
     }
   }
 });
+//todo: 刷新tradeInfo
+
+function resetInnerTradeInfo(){
+  resetTradeInfo();
+  var htiHtml = "";
+  for (var i = 0; i <= 2; i++) {
+    if (tradeInfo.length <= i) break;
+    var trade = tradeInfo[i];
+    htiHtml +=
+        "<li>\n" +
+        "    <a href=\"/tradeInfo/" + trade['trade_id'] + "/\" class=\"item-link item-content\">\n" +
+        "        <div class=\"item-inner\">\n" +
+        "            <div class=\"item-title\">\n";
+    if (trade['trade_type'] == 2) {
+      if (parseInt(trade['collection_user_id']) == currentUser.id)
+        htiHtml += "<div class=\"item-header\">收款自</div>" + getUserInfo(trade['payment_user_id'])['userName'];
+      else //todo: if
+        htiHtml += "<div class=\"item-header\">交易于</div>" + getUserInfo(trade['collection_user_id'])['userName'];
+    } else {
+      if (trade['trade_type'] == 1)
+        htiHtml += "<div class=\"item-header\">提现到</div>";
+      else htiHtml += "<div class=\"item-header\">充值自</div>";
+      htiHtml += (trade['type'] == 'true') ? '支付宝' : '微信';
+    }
+    htiHtml +=
+        "                <div class=\"item-footer\">" + trade['date_time'] + "</div>\n" +
+        "            </div>\n" +
+        "            <div class=\"item-after\">¥<span>" + trade['sum'] + "</span></div>\n" +
+        "        </div>\n" +
+        "    </a>\n" +
+        "</li>";
+  }
+  $$('#homeTradeInfo').html(htiHtml);
+}
+
+setInterval(function(){
+  console.log('resetHomeViewTradeInfo!');
+  if (currentUser.id >= 0) {
+    console.log('setInterval-Reset-InnerTradeInfo');
+    resetInnerTradeInfo();
+  }
+},10000);
+// test
+// setInterval(function(){console.log('?');},1000);
 
 function updateUserInfo() {
-  //todo: 检测输出是否合法
+  //done: 检测输出是否合法
   //这里由于钱数是变的,只能重新获取数据(因为还有转入..) 除非给我一个钱数接口,否则无法改变
   console.log("reload user-information");
   let info = getUserInfoUncached(currentUser.id);
@@ -723,7 +738,7 @@ $$("#foundPasswd-screen .back").on('click', function () {
 $$("#foundPasswd-screen .login-button").on('click', function () {
   let username = $$('#foundPasswd-screen [name="username"]').val();
   let userIdentity = $$('#foundPasswd-screen [name="ID"]').val();
-  var registerType = $$('#foundPasswd-screen [name="registerType"]').val();
+  let registerType = $$('#foundPasswd-screen [name="registerType"]').val();
   let password = '123456';
   if (username === '') {
     alert_OK("查询失败", "未输入用户名");
@@ -784,6 +799,7 @@ $$("#foundPasswd-screen2 .login-button").on('click', function () {
   }
   let username = $$('#foundPasswd-screen [name="username"]').val();
   let userIdentity = $$('#foundPasswd-screen [name="ID"]').val();
+  let registerType = $$('#foundPasswd-screen [name="registerType"]').val();
   console.log("change-password:" + username + "; " + userIdentity + "; " + password);
   $.ajax({
     type: 'POST',
@@ -792,7 +808,8 @@ $$("#foundPasswd-screen2 .login-button").on('click', function () {
       Action: "5",
       userIdentity: userIdentity,
       Username: username,
-      Password: password
+      Password: password,
+      registerType: registerType,
     },
     success: function (data, textStatus, jqXHR) {
       console.log(data);
