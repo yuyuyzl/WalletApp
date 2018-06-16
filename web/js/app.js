@@ -370,9 +370,10 @@ var homeView = app.views.create('#view-home', {
     }
   }
 });
+
 //todo: 刷新tradeInfo
 
-function resetInnerTradeInfo(){
+function resetInnerTradeInfo() {
   resetTradeInfo();
   var htiHtml = "";
   for (var i = 0; i <= 2; i++) {
@@ -405,13 +406,13 @@ function resetInnerTradeInfo(){
   $$('#homeTradeInfo').html(htiHtml);
 }
 
-setInterval(function(){
-  console.log('resetHomeViewTradeInfo!');
-  if (currentUser.id >= 0) {
+setInterval(function () {
+  console.log('resetHomeViewTradeInfo! '+ homeView.router.url);//.route.path
+  if (currentUser.id >= 0 && homeView.router.url==='/') {
     console.log('setInterval-Reset-InnerTradeInfo');
     resetInnerTradeInfo();
   }
-},10000);
+}, 10000);
 // test
 // setInterval(function(){console.log('?');},1000);
 
@@ -626,13 +627,16 @@ $$("#register-screen .login-button").on('click', function () {
         }]
     }).open();
     return;
+  } else if (!(/^[0-9]*$/.test(agencyID))) {
+    alert_OK("注册失败", "机构号不合条件");
+    return;
   } else if (!(/^[^\u4e00-\u9fa5]*$/.test(username))) {
     alert_OK("注册失败", "用户名中不能包含汉字");
     return;
   } else if (!(/^[0-9]*$/.test(mobile))) {
     alert_OK("注册失败", "手机号不合条件");
     return;
-  } else if (!(/^[0-9a-zA-Z]*$/.test(agencyID))) {
+  } else if (!(/^[0-9a-zA-Z]*$/.test(ID))) {
     alert_OK("注册失败", "证件号码不合条件");
     return;
   } else if (username === '' || password === '' || agencyID === '' || mobile === '' ||
