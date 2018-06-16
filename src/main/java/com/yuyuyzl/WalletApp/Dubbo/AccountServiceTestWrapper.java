@@ -74,16 +74,16 @@ public class AccountServiceTestWrapper implements AccountService {
                         map.put("UT"+String.valueOf(i+20),"{\"date_time\":\"2018-06-04 12:00:00\",\"institution_id\":\"1\",\"sum\":\"100.00\",\"type\":\"true\",\"user_id\":\""+String.valueOf(user_id)+"\"}");
                         break;
                     case 1:
-                        map.put("UT"+String.valueOf(i+30),"{\"date_time\":\"2018-06-04 12:00:00\",\"institution_id\":\"1\",\"sum\":\"100.00\",\"type\":\"true\",\"user_id\":\""+String.valueOf(user_id)+"\"}");
-                        break;
-                    case 2:
-                        if (i%2==0)
-                        map.put("UT"+String.valueOf(i),"{\"collection_institution_id\":\"1\",\"collection_user_id\":\""+String.valueOf(user_id)+"\",\"date_time\":\"2018-06-04 12:0"+i+":00\",\"payment_institution_id\":\"1\",\"payment_user_id\":\"3\",\"sum\":\"23.33\",\"type\":\"true\"}");
-                        else map.put("UT"+String.valueOf(i+10),"{\"collection_institution_id\":\"1\",\"collection_user_id\":\"3\",\"date_time\":\"2018-06-04 12:0"+(9-i)+":00\",\"payment_institution_id\":\"1\",\"payment_user_id\":\""+String.valueOf(user_id)+"\",\"sum\":\"23.33\",\"type\":\"true\"}");
-                        break;
-                }
-                l.add(map);
-            }
+            map.put("UT"+String.valueOf(i+30),"{\"date_time\":\"2018-06-04 12:00:00\",\"institution_id\":\"1\",\"sum\":\"100.00\",\"type\":\"true\",\"user_id\":\""+String.valueOf(user_id)+"\"}");
+            break;
+            case 2:
+                if (i%2==0)
+                    map.put("UT"+String.valueOf(i),"{\"collection_institution_id\":\"1\",\"collection_user_id\":\""+String.valueOf(user_id)+"\",\"date_time\":\"2018-06-04 12:0"+i+":00\",\"payment_institution_id\":\"1\",\"payment_user_id\":\"3\",\"sum\":\"23.33\",\"type\":\"true\"}");
+                else map.put("UT"+String.valueOf(i+10),"{\"collection_institution_id\":\"1\",\"collection_user_id\":\"3\",\"date_time\":\"2018-06-04 12:0"+(9-i)+":00\",\"payment_institution_id\":\"1\",\"payment_user_id\":\""+String.valueOf(user_id)+"\",\"sum\":\"23.33\",\"type\":\"true\"}");
+                break;
+        }
+        l.add(map);
+    }
 
         }
         return l;

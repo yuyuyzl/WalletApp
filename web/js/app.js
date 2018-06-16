@@ -371,8 +371,6 @@ var homeView = app.views.create('#view-home', {
   }
 });
 
-//todo: 刷新tradeInfo
-
 function resetInnerTradeInfo() {
   resetTradeInfo();
   var htiHtml = "";
@@ -387,8 +385,13 @@ function resetInnerTradeInfo() {
     if (trade['trade_type'] == 2) {
       if (parseInt(trade['collection_user_id']) == currentUser.id)
         htiHtml += "<div class=\"item-header\">收款自</div>" + getUserInfo(trade['payment_user_id'])['userName'];
-      else //todo: if
-        htiHtml += "<div class=\"item-header\">交易于</div>" + getUserInfo(trade['collection_user_id'])['userName'];
+      else {
+        console.log(trade['type']);
+        if (trade['type'] === 'false')
+          htiHtml += "<div class=\"item-header\">消费于</div>" + getUserInfo(trade['collection_user_id'])['userName'];
+        else
+          htiHtml += "<div class=\"item-header\">转账给</div>" + getUserInfo(trade['collection_user_id'])['userName'];
+      }
     } else {
       if (trade['trade_type'] == 1)
         htiHtml += "<div class=\"item-header\">提现到</div>";
@@ -407,12 +410,13 @@ function resetInnerTradeInfo() {
 }
 
 setInterval(function () {
-  console.log('resetHomeViewTradeInfo! '+ homeView.router.url);//.route.path
-  if (currentUser.id >= 0 && homeView.router.url==='/') {
-    console.log('setInterval-Reset-InnerTradeInfo');
-    resetInnerTradeInfo();
+  console.log('resetHomeViewTradeInfo! ' + homeView.router.url);//.route.path
+  if (currentUser.id >= 0 && homeView.router.url === '/') {
+    console.log('setInterval-Reset-InnerTradeInfo (refresh)');
+    // resetInnerTradeInfo();
+    homeView.router.refreshPage();
   }
-}, 10000);
+}, 60000);
 // test
 // setInterval(function(){console.log('?');},1000);
 
