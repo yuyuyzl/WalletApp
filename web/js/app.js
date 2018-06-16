@@ -228,7 +228,7 @@ var homeView = app.views.create('#view-home', {
                     } else {
                       app.dialog.create({
                         title: '错误',
-                        text: '转账失败',
+                        text: '交易失败',
                         buttons: [
                           {
                             text: 'OK',
@@ -247,7 +247,7 @@ var homeView = app.views.create('#view-home', {
                     return;
                   }
                 } else {
-                  alert_OK("提现失败", "密码错误");
+                  alert_OK("失败", "密码错误");
                 }
               }
             });
@@ -660,7 +660,7 @@ $$("#register-screen .login-button").on('click', function () {
         case -3:
           app.dialog.create({
             title: '注册失败',
-            text: 'UserAgencyDuplicateException',
+            text: '该证件号在该机构已被使用',
             buttons: [
               {
                 text: 'OK',
