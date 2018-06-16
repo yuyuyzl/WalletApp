@@ -30,7 +30,12 @@
             {{/if}}
             <div class="item-input-wrap ">
               <input type="text" id="targetUsername" placeholder="账户名">
+              {{#if isToY}}
               <div class="item-input-info">转账为即时到账交易，无法退款</div>
+              {{else}}
+              <div class="item-input-info">如商户服务出现问题，请联系商家进行退款</div>
+              {{/if}}
+
             </div>
 
           </div>
