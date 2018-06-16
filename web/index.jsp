@@ -207,7 +207,7 @@
         </div>
         <div class="page-content login-screen-content">
 
-          <div class="login-screen-title">用户注册</div>
+          <div class="login-screen-title" style="font-size: x-large">用户注册</div>
           <div class="list">
             <ul>
               <li class="item-content item-input item-input-with-info input-login">
@@ -340,7 +340,7 @@
         </div>
         <div class="page-content login-screen-content">
 
-          <div class="login-screen-title">找回密码</div>
+          <div class="login-screen-title" style="font-size: x-large">找回密码</div>
           <div class="list">
             <ul>
               <li class="item-content item-input input-login">
