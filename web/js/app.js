@@ -247,7 +247,7 @@ var homeView = app.views.create('#view-home', {
                     return;
                   }
                 } else {
-                  alert_OK("提现失败", "密码错误");
+                  alert_OK("失败", "密码错误");
                 }
               }
             });
