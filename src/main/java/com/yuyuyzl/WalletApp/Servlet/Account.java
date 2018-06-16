@@ -173,7 +173,7 @@ public class Account extends HttpServlet {
 
                         Map.Entry<String,String> entry=map.entrySet().iterator().next();
 
-                        if(entry.getKey().length()>0 && entry.getValue().length()>0) {
+                        if(entry.getValue()!=null&&entry.getKey().length()>0 && entry.getValue().length()>0) {
 
                             String jsonString = entry.getValue();
                             Type type = new TypeToken<Map<String, String>>() {
@@ -191,8 +191,8 @@ public class Account extends HttpServlet {
                             return -o1.get("date_time").compareTo(o2.get("date_time"));
                         }
                     });
-                    System.out.println(startDate);
-                    System.out.println(endDate);
+                    //System.out.println(startDate);
+                    //System.out.println(endDate);
                     out.print(gson.toJson(res));
 
                 }

@@ -204,7 +204,7 @@ var homeView = app.views.create('#view-home', {
                     if (res == '1') {
                       app.dialog.create({
                         title: '提示',
-                        text: '转账成功',
+                        text: '交易成功',
                         buttons: [
                           {
                             text: 'OK',
