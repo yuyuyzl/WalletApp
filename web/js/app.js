@@ -204,7 +204,7 @@ var homeView = app.views.create('#view-home', {
                     if (res == '1') {
                       app.dialog.create({
                         title: '提示',
-                        text: '转账成功',
+                        text: '交易成功',
                         buttons: [
                           {
                             text: 'OK',
@@ -228,7 +228,7 @@ var homeView = app.views.create('#view-home', {
                     } else {
                       app.dialog.create({
                         title: '错误',
-                        text: '转账失败',
+                        text: '交易失败',
                         buttons: [
                           {
                             text: 'OK',
