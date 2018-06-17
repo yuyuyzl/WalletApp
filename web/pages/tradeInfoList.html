@@ -24,7 +24,7 @@
                                         <div class="item-header">收款自</div>
                                         {{getUserInfo(this['payment_user_id'])['userName']}}
                                         {{else}}
-                                            {{#js_if "this['type']==='false'"}}
+                                            {{#js_if "this['type']==='true'"}}
                                             <div class="item-header">消费于</div>
                                             {{else}}
                                             <div class="item-header">转账给</div>

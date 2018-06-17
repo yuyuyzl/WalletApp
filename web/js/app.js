@@ -387,7 +387,7 @@ function resetInnerTradeInfo() {
         htiHtml += "<div class=\"item-header\">收款自</div>" + getUserInfo(trade['payment_user_id'])['userName'];
       else {
         console.log(trade['type']);
-        if (trade['type'] === 'false')
+        if (trade['type'] === 'true')
           htiHtml += "<div class=\"item-header\">消费于</div>" + getUserInfo(trade['collection_user_id'])['userName'];
         else
           htiHtml += "<div class=\"item-header\">转账给</div>" + getUserInfo(trade['collection_user_id'])['userName'];
