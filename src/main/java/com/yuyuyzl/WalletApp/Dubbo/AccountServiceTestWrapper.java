@@ -1,5 +1,6 @@
 package com.yuyuyzl.WalletApp.Dubbo;
 
+import buaa.jj.accountservice.Encrypt;
 import buaa.jj.accountservice.api.AccountService;
 import buaa.jj.accountservice.exceptions.*;
 
@@ -14,31 +15,37 @@ public class AccountServiceTestWrapper implements AccountService {
     public int userLogin(String user_name, String user_passwd) throws UserNotExistException, UserFrozenException {
 
         if(accountService!=null)return accountService.userLogin(user_name, user_passwd);
-        return 9;
+        if(user_name.equals("user")&&user_passwd.equals(Encrypt.SHA256("123")))return 1;
+        throw new UserNotExistException();
     }
 
     public int agencyLogin(String agency_name, String agency_passwd) {
-        return accountService.agencyLogin(agency_name,agency_passwd);
+        if(accountService!=null)return accountService.agencyLogin(agency_name,agency_passwd);
+        return 1;
     }
 
     public int userRegister(String user_name, String user_passwd, String user_realname, String user_tel, String user_email, String user_identity, int under_agency_id) throws NameDuplicateException, UserAgencyDuplicateException, AgencyNotExistException {
-        return accountService.userRegister( user_name,  user_passwd,  user_realname,  user_tel,  user_email,  user_identity,  under_agency_id);
+        if(accountService!=null)return accountService.userRegister( user_name,  user_passwd,  user_realname,  user_tel,  user_email,  user_identity,  under_agency_id);
+        return 1;
     }
 
     public int userRegister(String user_name, String user_passwd, String user_realname, String user_tel, String user_email, String user_identity, String under_agency_name) throws NameDuplicateException, UserAgencyDuplicateException, AgencyNotExistException {
-        return accountService.userRegister( user_name,  user_passwd,  user_realname,  user_tel,  user_email,  user_identity,  under_agency_name);
+        if(accountService!=null)return accountService.userRegister( user_name,  user_passwd,  user_realname,  user_tel,  user_email,  user_identity,  under_agency_name);
+        return 1;
     }
 
     public boolean userPasswdChanging(int user_id, String old_passwd, String new_passwd) throws UserNotExistException, UserFrozenException {
-        return accountService.userPasswdChanging(user_id, old_passwd, new_passwd);
+        if(accountService!=null)return accountService.userPasswdChanging(user_id, old_passwd, new_passwd);
+        return true;
     }
 
     public Map agencyInformation(int agency_id) {
-        return accountService.agencyInformation(agency_id);
+        if(accountService!=null)return accountService.agencyInformation(agency_id);
+        return null;
     }
 
     public List<Integer> agencyAllUser(int agency_id) {
-        return accountService.agencyAllUser(agency_id);
+        return null;
     }
 
     public Map userInformation(int user_id) {
@@ -49,19 +56,23 @@ public class AccountServiceTestWrapper implements AccountService {
     }
 
     public int freezeUnfreeze(int user_id, boolean if_freeze) throws UserNotExistException {
-        return accountService.freezeUnfreeze(user_id, if_freeze);
+        if(accountService!=null)return accountService.freezeUnfreeze(user_id, if_freeze);
+        return 1;
     }
 
     public boolean foundPasswd(String user_name, String user_identity, String new_passwd) throws UserNotExistException, UserFrozenException {
-        return accountService.foundPasswd(user_name, user_identity, new_passwd);
+        if(accountService!=null)return accountService.foundPasswd(user_name, user_identity, new_passwd);
+        return true;
     }
 
     public List<Map<String, String>> agencyTradeInformation(int agency_id, String start_date, String end_date, int trade_type) {
-        return accountService.agencyTradeInformation(agency_id, start_date, end_date, trade_type);
+        if(accountService!=null)return accountService.agencyTradeInformation(agency_id, start_date, end_date, trade_type);
+        return null;
     }
 
     public List<Map<String, String>> userTradeInformation(int user_id, String start_date, String end_date, int trade_type) {
-        List<Map<String, String>> l= accountService.userTradeInformation(user_id, start_date, end_date, trade_type);
+        List<Map<String, String>> l=null;
+        if(accountService!=null)l= accountService.userTradeInformation(user_id, start_date, end_date, trade_type);
         if(l==null){
             System.out.println("NULL RESPONSE FROM AS");
             Random random=new Random();
@@ -90,19 +101,23 @@ public class AccountServiceTestWrapper implements AccountService {
     }
 
     public boolean transferConsume(int pay_user_id, int get_user_id, double amount, boolean trade_type) throws UserNotExistException, UserFrozenException {
-        return accountService.transferConsume(pay_user_id, get_user_id, amount, trade_type);
+        if(accountService!=null)return accountService.transferConsume(pay_user_id, get_user_id, amount, trade_type);
+        return true;
     }
 
     public boolean reCharge(int user_id, double amount, boolean recharge_platform) throws UserNotExistException {
-        return accountService.reCharge(user_id, amount, recharge_platform);
+        if(accountService!=null)return accountService.reCharge(user_id, amount, recharge_platform);
+        return true;
     }
 
     public boolean drawMoney(int user_id, double amount, boolean draw_platform) throws UserNotExistException {
-        return accountService.drawMoney(user_id, amount, draw_platform);
+        if(accountService!=null)return accountService.drawMoney(user_id, amount, draw_platform);
+        return true;
     }
 
     public int getID(String name, boolean type) {
-        return accountService.getID(name, type);
+        if(accountService!=null)return accountService.getID(name, type);
+        return 1;
     }
 
     public void CSSystemReady() {

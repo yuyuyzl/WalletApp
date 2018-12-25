@@ -1,6 +1,5 @@
 package com.yuyuyzl.WalletApp.Login;
 
-import com.yuyuyzl.WalletApp.Dubbo.DubboHandler;
 
 public class LoginHandler {
     public static int getUID(String sessionID){
