@@ -72,7 +72,7 @@ public class AccountServiceTestWrapper implements AccountService {
 
     public List<Map<String, String>> userTradeInformation(int user_id, String start_date, String end_date, int trade_type) {
         List<Map<String, String>> l=null;
-        //if(accountService!=null)l= accountService.userTradeInformation(user_id, start_date, end_date, trade_type);
+        if(accountService!=null)l= accountService.userTradeInformation(user_id, start_date, end_date, trade_type);
         if(l==null){
             System.out.println("NULL RESPONSE FROM AS");
             Random random=new Random();

@@ -201,6 +201,7 @@ public class test implements AccountService {
             if (value1 >= amount) {
                 String sql3 = String.format("UPDATE Person SET available = '%s' WHERE username = '%d'", value1 - amount, pay_user_id);
                 String sql4 = String.format("UPDATE Person SET available = '%s' WHERE username = '%d'", value1 + amount, get_user_id);
+                //TODO 记录账单
                 pstmt = (PreparedStatement)MyUtils.CONN.prepareStatement(sql3);
                 pstmt = (PreparedStatement)MyUtils.CONN.prepareStatement(sql4);
                 return true;
